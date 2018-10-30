@@ -1,10 +1,12 @@
-const express  = require('express');
-const router   = express.Router();
-const gravatar = require('gravatar');
-const bcrypt   = require('bcryptjs');
-const jwt      = require('jsonwebtoken');
-const keys     = require('../../config/keys');
-const passport = require('passport');
+const express               = require('express');
+const router                = express.Router();
+const gravatar              = require('gravatar');
+const bcrypt                = require('bcryptjs');
+const jwt                   = require('jsonwebtoken');
+const keys                  = require('../../config/keys');
+const passport              = require('passport');
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput    = require('../../validation/login');
 
 // load user model
 const User = require('../../models/User');
@@ -16,16 +18,22 @@ router.get('/test', (req, res) => {
   res.json({msg: 'users Works'})
 });
 
-// @route   GET api/users/test
-// @desc    Test post route
+// @route   GET api/users/register
+// @desc    User SignUp
 // @access  Public
 router.post('/register', (req, res) => {
+  const {errors, isValid} = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
 
   // validation
   User.findOne({email: req.body.email})
     .then(user => {
       if (user) {
-        return res.status(400).json({email: 'Email already exists'});
+        errors.email = 'Email already exists';
+        return res.status(400).json(errors);
       } else {
         const avatar = gravatar.url(req.body.email, {
           s: '200', // size
@@ -57,13 +65,21 @@ router.post('/register', (req, res) => {
 // @desc    Login User / Returning JWT Token
 // @access  Public
 router.post('/login', async (req, res) => {
+
+  // validation
+  const {errors, isValid} = validateLoginInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const inEmail    = req.body.email;
   const inPassword = req.body.password;
 
   // find user
   const user = await User.findOne({email: inEmail});
   if (!user) {
-    return res.status(404).json({email: 'User not found'})
+    errors.email = 'User not found';
+    return res.status(404).json(errors);
   }
 
   // check password
