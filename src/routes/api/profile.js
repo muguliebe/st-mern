@@ -76,6 +76,21 @@ const getProfile = async (req, res) => {
   }
 };
 
+const getProfiles = async (req, res) => {
+  const errors = {};
+  try {
+    const profiles = await Profile.find()
+      .populate('user', ['name', 'avatar']);
+    if (!profiles) {
+      errors.noprofile = 'There are no profiles';
+      return res.status(404).json(errors);
+    }
+    res.json(profiles);
+  } catch (e) {
+    res.status(404).json({profile: 'There are no profiles'})
+  }
+};
+
 // @route   GET api/profile
 // @desc    Get current users profile
 // @access  Private
@@ -86,4 +101,8 @@ router.get('/', passport.authenticate('jwt', {session: false}), getProfile);
 // @access  Private
 router.post('/', passport.authenticate('jwt', {session: false}), postProfile);
 
+// @route   GET api/profile/all
+// @desc    Get all profiles
+// @access  Public
+router.get('/all', getProfiles);
 module.exports = router;
