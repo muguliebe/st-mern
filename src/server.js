@@ -41,6 +41,12 @@ app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 
+// error handling
+app.use((err, req, res, next) => {
+  res.status(500).send({error: err.message});
+  next()
+});
+
 // server start
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
