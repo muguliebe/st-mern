@@ -6,7 +6,9 @@
   "author": "zany",
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tt": "node src/tt.js",
+    "start": "node src/server.js",
+    "watch": "nodemon -w src --exec yarn start"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
