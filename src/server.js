@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 });
 
 // DB config
-const db = require('../config/keys').mongoURI;
+const db = require('./config/keys').mongoURI;
 
 // connect to mongodb
 mongoose.connect(db, {useNewUrlParser: true})
