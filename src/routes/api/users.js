@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
 
     // sign
     try {
-      const token = await jwt.sign(payload, keys.secretOrKey, {expiresIn: 3600});
+      const token = await jwt.sign(payload, keys.secretOrKey, {expiresIn: 360000});
       res.json({msg: 'Success', token: 'Bearer ' + token});
     } catch (err) {
       throw `jwt sign err occured: ${err.message}`;
@@ -104,16 +104,11 @@ router.post('/login', async (req, res) => {
 // @route   GET api/users/current
 // @desc    Return current user
 // @access  Public
-router.get(
-  '/current',
-  passport.authenticate('jwt', {session: false}),
-  (req, res) => {
-    res.json({
-      id: req.user.id,
-      name: req.user.name,
-      email: req.user.email
-    });
-  }
-);
-
+router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
+  res.json({
+    id: req.user.id,
+    name: req.user.name,
+    email: req.user.email
+  });
+});
 module.exports = router;

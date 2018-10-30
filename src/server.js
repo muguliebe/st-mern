@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   res.end = function () {
     end.apply(res, arguments);
     const elapsed = new Date() - startDate;
-    console.log(`${req.method} ${req.url} [${elapsed} ms]`);
+    console.log(`${req.method} ${req.originalUrl} [${elapsed} ms]`);
   };
 
   next()
@@ -48,8 +48,10 @@ app.use('/api/posts', posts);
 
 // error handling
 app.use((err, req, res, next) => {
+  if(res.headersSent){
+    return next(err)
+  }
   res.status(500).send({error: err.message});
-  next()
 });
 
 // server start
