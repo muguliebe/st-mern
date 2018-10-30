@@ -1,6 +1,7 @@
 const express    = require('express');
 const mongoose   = require('mongoose');
 const bodyParser = require('body-parser');
+const passport   = require('passport');
 
 // router
 const users   = require('./routes/api/users');
@@ -17,7 +18,7 @@ app.use((req, res, next) => {
   const startDate = new Date();
   const end       = res.end;
 
-  res.end = function(){
+  res.end = function () {
     end.apply(res, arguments);
     const elapsed = new Date() - startDate;
     console.log(`${req.method} ${req.url} [${elapsed} ms]`);
@@ -35,8 +36,12 @@ mongoose.connect(db, {useNewUrlParser: true})
   .catch(err => console.log(err))
 ;
 
+// passport config
+app.use(passport.initialize());
+require('./config/passport')(passport);
+
 // controller
-app.get('/', (req, res) => res.send('Hello World'));
+app.get('/', (req, res) => res.send(`alive`));
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
