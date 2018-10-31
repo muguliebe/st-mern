@@ -129,4 +129,64 @@ router.post('/unlike/:id', passport.authenticate('jwt', {session: false}), async
 
 });
 
+// @route   POST api/posts/comment/:id
+// @desc    add comment to post
+// @access  Private
+router.post('/comment/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  const {errors, isValid} = validatePostInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  try {
+    let post = await Post.findById(req.params.id);
+
+    const newComment = {
+      text: req.body.text,
+      name: req.body.name,
+      avatar: req.body.avatar,
+      user: req.user.id
+    };
+
+    post.comments.unshift(newComment);
+    post.save().then(post => res.json(post));
+
+  } catch (e) {
+    res.status(404).json({postnotfound: 'No Post found'})
+  }
+
+});
+
+// @route   DELETE api/posts/comment/:id/:commentId
+// @desc    delete comment to post
+// @access  Private
+router.delete('/comment/:id/:commentId', passport.authenticate('jwt', {session: false}), async (req, res) => {
+
+  Post.findById(req.params.id)
+    .then(post => {
+      // check comment exist
+      let matchedComments = post.comments
+        .filter(comment => comment._id.toString() === req.params.commentId);
+
+      if (matchedComments.length === 0) {
+        return res.status(404).json({commentnotexists: 'Comment does not exist'})
+      }
+
+      // get comment index
+      const idxComment = post.comments
+        .map(comment => comment._id.toString())
+        .indexOf(req.params.commentId);
+
+      // splice comment out of arr
+      post.comments.splice(idxComment, 1);
+
+      post.save().then(post => res.json(post));
+    })
+    .catch(e => {
+      console.error(e);
+      res.status(404).json({postnotfound: 'No Post found', detail: e.message});
+    });
+
+});
+
 module.exports = router;
