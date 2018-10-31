@@ -48,7 +48,7 @@ app.use('/api/posts', posts);
 
 // error handling
 app.use((err, req, res, next) => {
-  if(res.headersSent){
+  if (res.headersSent) {
     return next(err)
   }
   res.status(500).send({error: err.message});

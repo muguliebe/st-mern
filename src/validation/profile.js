@@ -1,4 +1,4 @@
-const Validator = require('validator');
+const Validator           = require('validator');
 const {isEmpty, required} = require('./');
 
 module.exports = function validateProfileInput(data) {
