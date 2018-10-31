@@ -66,14 +66,62 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), async (req, r
 // @desc    Get posts
 // @access  Private
 router.delete('/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
-  let user = User.findById(req.user.id);
+  let user = await User.findById(req.user.id);
 
   try {
-    let post = Post.findById(req.params.id);
+    let post = await Post.findById(req.params.id);
     if (post.user.toString() !== user.id) {
       return res.status(401).json({notauthorized: 'only can delete by owner'})
     }
     post.remove().then(() => res.json({success: true}))
+
+  } catch (e) {
+    res.status(404).json({postnotfound: 'No Post found'})
+  }
+
+});
+
+// @route   POST api/posts/like/:id
+// @desc    like post
+// @access  Private
+router.post('/like/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  let user = await User.findById(req.user.id);
+
+  try {
+    let post = await Post.findById(req.params.id);
+    if (post.likes.some(like => like.user.toString() === user.id)) {
+      return res.status(400).json({alreadyliked: 'User already liked this post'});
+    }
+
+    post.likes.unshift({user: user.id});
+    post.save().then(post => res.json(post));
+
+  } catch (e) {
+    res.status(404).json({postnotfound: 'No Post found'})
+  }
+
+});
+
+// @route   POST api/posts/unlike/:id
+// @desc    unlike post
+// @access  Private
+router.post('/unlike/:id', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  let user = await User.findById(req.user.id);
+
+  try {
+    let post = await Post.findById(req.params.id);
+    if (!post.likes.some(like => like.user.toString() === user.id)) {
+      return res.status(400).json({notliked: 'You have not yet liked this post'});
+    }
+
+    //  get index of likes
+    const idxRemove = post.likes
+      .map(like => like.user.toString())
+      .indexOf(user.id);
+
+    post.likes.splice(idxRemove, 1);
+
+    post.save().then(post => res.json(post))
 
   } catch (e) {
     res.status(404).json({postnotfound: 'No Post found'})
