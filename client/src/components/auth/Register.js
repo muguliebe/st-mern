@@ -7,12 +7,6 @@ export default function Register() {
   const password2 = '';
   const errors    = {};
 
-  const onChange = e => {
-    let property = e.target.name;
-
-  };
-
-
   return (
     <div className="register">
       <div className="container">
