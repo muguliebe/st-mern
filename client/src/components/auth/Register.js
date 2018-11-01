@@ -7,12 +7,6 @@ export default function Register() {
   const password2 = '';
   const errors    = {};
 
-  const onChange = e => {
-    let property = e.target.name;
-
-  };
-
-
   return (
     <div className="register">
       <div className="container">
@@ -23,7 +17,7 @@ export default function Register() {
             <form action="create-profile.html">
               <div className="form-group">
                 <input type="text" className="form-control form-control-lg"
-                       placeholder="Name" name="name" value={name} onChange={} />
+                       placeholder="Name" name="name" value={name} />
               </div>
               <div className="form-group">
                 <input type="email" className="form-control form-control-lg"
