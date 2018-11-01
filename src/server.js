@@ -7,6 +7,7 @@ const passport   = require('passport');
 const users   = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts   = require('./routes/api/posts');
+const test    = require('./routes/api/test');
 
 // initialization
 const app = express();
@@ -18,10 +19,12 @@ app.use((req, res, next) => {
   const startDate = new Date();
   const end       = res.end;
 
+  console.log(`${req.method} ${req.originalUrl} start`);
+
   res.end = function () {
     end.apply(res, arguments);
     const elapsed = new Date() - startDate;
-    console.log(`${req.method} ${req.originalUrl} [${elapsed} ms]`);
+    console.log(`${req.method} ${req.originalUrl} ended [${elapsed} ms] with ${res.statusCode}`);
   };
 
   next()
@@ -44,6 +47,7 @@ require('./config/passport')(passport);
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
+app.use('/api/test', test);
 
 // if (process.env.NODE_ENV === 'production') {
 // Set static folder
@@ -57,6 +61,7 @@ app.get('*', (req, res) => {
 
 // error handling
 app.use((err, req, res, next) => {
+  console.error(err.message);
   if (res.headersSent) {
     return next(err)
   }
