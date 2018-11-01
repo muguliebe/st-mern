@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
+import { createStore, useStore } from 'react-hookstore';
 import classnames from 'classnames';
+import { withRouter } from 'react-router-dom';
 import * as api from '../../action/auth';
 
-export default function Register() {
+createStore({name: 'user', state: {}});
+createStore({name: 'errors', state: {}});
 
-  const [user, setUser] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: '',
-    errors: {}
-  });
+function Register(props) {
+
+  const [user, setUser]    = useStore('user');
+  const [errors, setError] = useStore('errors');
 
   const handleChange = e => {
-    setUser({...user, [e.target.name]: e.target.value})
+    setUser({...user, [e.target.name]: e.target.value});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     api.register(user)
-      .then(res => setUser(res.data))
+      .then(() => props.history.push('/login'))
       .catch(err => {
         console.log(err.response.data);
-        setUser({...user, errors: err.response.data});
+        setError(err.response.data);
       });
   };
 
@@ -38,46 +38,46 @@ export default function Register() {
               <div className="form-group">
                 <input type="text"
                        className={classnames('form-control form-control-lg', {
-                         'is-invalid': user.errors.name
+                         'is-invalid': errors.name
                        })}
                        placeholder="Name"
                        name="name" value={user.name} onChange={handleChange} />
-                {user.errors.name && (
-                  <div className="invalid-feedback"> {user.errors.name} </div>
+                {errors.name && (
+                  <div className="invalid-feedback"> {errors.name} </div>
                 )}
               </div>
               <div className="form-group">
                 <input type="email"
                        className={classnames('form-control form-control-lg', {
-                         'is-invalid': user.errors.email
+                         'is-invalid': errors.email
                        })}
                        placeholder="Email Address"
                        name="email" value={user.email} onChange={handleChange} />
-                {user.errors.email && (
-                  <div className="invalid-feedback"> {user.errors.email} </div>
+                {errors.email && (
+                  <div className="invalid-feedback"> {errors.email} </div>
                 )}
                 <small className="form-text text-muted">use a Gravatar email</small>
               </div>
               <div className="form-group">
                 <input type="password"
                        className={classnames('form-control form-control-lg', {
-                         'is-invalid': user.errors.password
+                         'is-invalid': errors.password
                        })}
                        placeholder="Password"
                        name="password" value={user.password} onChange={handleChange} />
-                {user.errors.password && (
-                  <div className="invalid-feedback">{user.errors.password}</div>
+                {errors.password && (
+                  <div className="invalid-feedback">{errors.password}</div>
                 )}
               </div>
               <div className="form-group">
                 <input type="password"
                        className={classnames('form-control form-control-lg', {
-                         'is-invalid': user.errors.password2
+                         'is-invalid': errors.password2
                        })}
                        placeholder="Confirm Password"
                        name="password2" value={user.password2} onChange={handleChange} />
-                {user.errors.password2 && (
-                  <div className="invalid-feedback">{user.errors.password2}</div>
+                {errors.password2 && (
+                  <div className="invalid-feedback">{errors.password2}</div>
                 )}
               </div>
               <input type="submit" className="btn btn-info btn-block mt-4" />
@@ -88,3 +88,5 @@ export default function Register() {
     </div>
   )
 }
+
+export default withRouter(Register)
