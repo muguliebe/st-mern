@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
+import { createStore, useStore } from 'react-hookstore';
 import * as api from '../../action/auth';
 
-export default function Register() {
+createStore({
+    name: 'user',
+    state: {
+      name: '',
+      email: '',
+      password: '',
+      password2: '',
+      errors: {}
+    }
+  }
+);
 
-  const [user, setUser] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: '',
-    errors: {}
-  });
+createStore({name: 'errors'});
+export default function Register(props) {
+
+  const [user, setUser]     = useStore('user');
 
   const handleChange = e => {
     setUser({...user, [e.target.name]: e.target.value})
@@ -20,7 +28,7 @@ export default function Register() {
     e.preventDefault();
 
     api.register(user)
-      .then(res => setUser(res.data))
+      .then(() => props.history.push('/login'))
       .catch(err => {
         console.log(err.response.data);
         setUser({...user, errors: err.response.data});
