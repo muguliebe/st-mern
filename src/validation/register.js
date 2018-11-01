@@ -17,6 +17,10 @@ module.exports = function validateRegisterInput(data) {
     .filter(key => Validator.isEmpty(data[key]))
     .forEach(key => errors[key] = key + ' field is required');
 
+  if (!Validator.isEmail(data.email)) {
+    errors.email = 'Email is invalid';
+  }
+
   if (!Validator.isLength(data.name, {min: 2, max: 30})) {
     errors.name = 'Name must be between 2 and 30 characters';
   }

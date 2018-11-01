@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import classnames from 'classnames';
+import * as api from '../../action/auth';
 
 export default function Register() {
 
@@ -16,18 +16,15 @@ export default function Register() {
     setUser({...user, [e.target.name]: e.target.value})
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios.post('/api/users/register', user)
-      .then(res => {
-        console.log(res.data)
-      })
-      .catch(e => {
-        console.log(e.response.data);
-        setUser({...user, errors: e.response.data});
+    api.register(user)
+      .then(res => setUser(res.data))
+      .catch(err => {
+        console.log(err.response.data);
+        setUser({...user, errors: err.response.data});
       });
-
   };
 
   return (
@@ -37,7 +34,7 @@ export default function Register() {
           <div className="col-md-8 m-auto">
             <h1 className="display-4 text-center">Sign Up</h1>
             <p className="lead text-center">Create account</p>
-            <form onSubmit={handleSubmit}>
+            <form noValidate onSubmit={handleSubmit}>
               <div className="form-group">
                 <input type="text"
                        className={classnames('form-control form-control-lg', {
