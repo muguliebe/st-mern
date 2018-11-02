@@ -1,24 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import { createStore, useStore } from 'react-hookstore';
 import * as api from '../../action/auth';
 
-createStore({
-    name: 'user',
-    state: {
-      name: '',
-      email: '',
-      password: '',
-      password2: '',
-      errors: {}
-    }
-  }
-);
-
-createStore({name: 'errors'});
 export default function Register(props) {
 
-  const [user, setUser]     = useStore('user');
+  const [user, setUser] = useStore('user');
 
   const handleChange = e => {
     setUser({...user, [e.target.name]: e.target.value})
