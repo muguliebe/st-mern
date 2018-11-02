@@ -85,7 +85,7 @@ router.post('/login', async (req, res) => {
   // check password
   const bMatched = await bcrypt.compare(inPassword, user.password);
   if (bMatched) {
-    const payload = {id: user.id, name: user.name, avatar: user.avatar};
+    const payload = {id: user.id, email: user.email, name: user.name, avatar: user.avatar};
 
     // sign
     try {

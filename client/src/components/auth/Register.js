@@ -1,20 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
-import { useStore } from 'react-hookstore';
-import * as api from '../../action/auth';
+import axios from "axios";
 
 export default function Register(props) {
 
-  const [user, setUser] = useStore('user');
+  const template = {
+    name: '',
+    email: '',
+    password: '',
+    password2: ''
+  };
+
+  const [user, dispatch] = useState({
+    template,
+    errors: template
+  });
 
   const handleChange = e => {
-    setUser({...user, [e.target.name]: e.target.value})
+    dispatch({...user, [e.target.name]: e.target.value})
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    api.register(user, setUser, props);
+    axios.post('/api/users/register', user)
+      .then(() => {
+        dispatch({...user});
+        props.history.push('/login')
+      })
+      .catch(err => {
+        console.log(err.response.data);
+        dispatch({...user, errors: err.response.data});
+      });
   };
 
   return (

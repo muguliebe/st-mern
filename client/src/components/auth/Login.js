@@ -1,22 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStore } from 'react-hookstore';
-import * as api from '../../action/auth'
 import classnames from "classnames";
+import axios from "axios";
+import setAuthToken from "../../utils/setAuthToken";
+import jwtDecode from "jwt-decode";
 
-export default function Login() {
-
+export default function Login(props) {
   const [user, dispatch] = useStore('user');
+  useEffect(() => {
+    dispatch({...user, errors: {}})
+  }, []);
 
   const handleChange = e => {
     dispatch({...user, [e.target.name]: e.target.value});
-    console.log('user = ' + user);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    api.login(user, dispatch);
+    axios.post('/api/users/login', user)
+      .then(res => {
+        const {token} = res.data;
+        console.log(token);
+        localStorage.setItem('token', token);
+        setAuthToken(token);
+        const decoded = jwtDecode(token);
+        console.log(decoded);
+        dispatch({...user, ...decoded, isAuthenticated: true});
 
-    console.log(user)
+        props.history.push('/dashboard');
+      })
+      .catch(e => {
+        console.log(e);
+        if (e.response) {
+          dispatch({...user, errors: e.response.data, isAuthenticated: false});
+        }
+      });
   };
 
   return (
@@ -32,15 +50,22 @@ export default function Login() {
                        className={classnames('form-control form-control-lg', {
                          'is-invalid': user.errors.email
                        })}
-                       placeholder="Email Address"
+                       value={user.email} placeholder="Email Address"
                        name="email" onChange={handleChange} />
                 {user.errors.email && (
                   <div className="invalid-feedback"> {user.errors.email} </div>
                 )}
               </div>
               <div className="form-group">
-                <input type="password" className="form-control form-control-lg" placeholder="Password"
+                <input type="password"
+                       className={classnames('form-control form-control-lg', {
+                         'is-invalid': user.errors.password
+                       })}
+                       value={user.password} placeholder="Password"
                        name="password" onChange={handleChange} />
+                {user.errors.password && (
+                  <div className="invalid-feedback"> {user.errors.password} </div>
+                )}
               </div>
               <input type="submit" className="btn btn-info btn-block mt-4" />
             </form>

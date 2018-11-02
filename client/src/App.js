@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
-import * as gstore from './hook/gstore';
+import * as gstore from './gstore';
 
 import Footer from './components/layout/Footer';
 import Navbar from './components/layout/Navbar';
