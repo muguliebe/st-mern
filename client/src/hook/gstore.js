@@ -8,8 +8,20 @@ export function init() {
         email: '',
         password: '',
         password2: '',
-        errors: {}
+        errors: {
+          name: '',
+          email: '',
+          password: '',
+          password2: ''
+        }
       }
     }
   );
+  createStore({
+    name: 'errors',
+    state: {
+      name: '',
+      email: ''
+    }
+  })
 }

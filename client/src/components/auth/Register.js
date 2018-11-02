@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { createStore, useStore } from 'react-hookstore';
+import { useStore } from 'react-hookstore';
 import * as api from '../../action/auth';
 
 export default function Register(props) {
@@ -14,12 +14,7 @@ export default function Register(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    api.register(user)
-      .then(() => props.history.push('/login'))
-      .catch(err => {
-        console.log(err.response.data);
-        setUser({...user, errors: err.response.data});
-      });
+    api.register(user, setUser, props);
   };
 
   return (

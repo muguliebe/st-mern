@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useStore } from 'react-hookstore';
+import * as api from '../../action/auth'
+import classnames from "classnames";
 
 export default function Login() {
 
-  const [user, setUser] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: ''
-  });
+  const [user, dispatch] = useStore('user');
 
   const handleChange = e => {
-    setUser({...user, [e.target.name]: e.target.value});
+    dispatch({...user, [e.target.name]: e.target.value});
     console.log('user = ' + user);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
+    api.login(user, dispatch);
+
     console.log(user)
   };
 
@@ -26,14 +26,21 @@ export default function Login() {
           <div className="col-md-8 m-auto">
             <h1 className="display-4 text-center">Log In</h1>
             <p className="lead text-center">or Sign in whatever..</p>
-            <form onSubmit={handleSubmit}>
+            <form noValidate onSubmit={handleSubmit}>
               <div className="form-group">
-                <input type="email" className="form-control form-control-lg" placeholder="Email Address"
-                       name="email" onChange={handleChange}/>
+                <input type="email"
+                       className={classnames('form-control form-control-lg', {
+                         'is-invalid': user.errors.email
+                       })}
+                       placeholder="Email Address"
+                       name="email" onChange={handleChange} />
+                {user.errors.email && (
+                  <div className="invalid-feedback"> {user.errors.email} </div>
+                )}
               </div>
               <div className="form-group">
                 <input type="password" className="form-control form-control-lg" placeholder="Password"
-                       name="password" onChange={handleChange}/>
+                       name="password" onChange={handleChange} />
               </div>
               <input type="submit" className="btn btn-info btn-block mt-4" />
             </form>
