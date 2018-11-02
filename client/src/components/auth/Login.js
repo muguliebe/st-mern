@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react';
-import { useStore } from 'react-hookstore';
+import React from 'react';
 import classnames from "classnames";
-import axios from "axios";
-import setAuthToken from "../../utils/setAuthToken";
-import jwtDecode from "jwt-decode";
+import useUser from '../../hook/useUser';
 
 export default function Login(props) {
-  const [user, dispatch] = useStore('user');
-  useEffect(() => {
-    dispatch({...user, errors: {}})
-  }, []);
+  const {user, dispatch, login} = useUser();
 
   const handleChange = e => {
     dispatch({...user, [e.target.name]: e.target.value});
@@ -17,30 +11,14 @@ export default function Login(props) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    axios.post('/api/users/login', user)
-      .then(res => {
-        const {token} = res.data;
-        console.log(token);
-        localStorage.setItem('token', token);
-        setAuthToken(token);
-        const decoded = jwtDecode(token);
-        console.log(decoded);
-        dispatch({...user, ...decoded, isAuthenticated: true});
-
-        props.history.push('/dashboard');
-      })
-      .catch(e => {
-        console.log(e);
-        if (e.response) {
-          dispatch({...user, errors: e.response.data, isAuthenticated: false});
-        }
-      });
+    login(props);
   };
 
   return (
     <div className="login">
       <div className="container">
         <div className="row">
+          {user.isAuth ? 'loggedIn' : 'no auth'}
           <div className="col-md-8 m-auto">
             <h1 className="display-4 text-center">Log In</h1>
             <p className="lead text-center">or Sign in whatever..</p>

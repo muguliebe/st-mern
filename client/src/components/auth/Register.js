@@ -1,37 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import axios from "axios";
+import useUser from '../../hook/useUser';
 
 export default function Register(props) {
-
-  const template = {
-    name: '',
-    email: '',
-    password: '',
-    password2: ''
-  };
-
-  const [user, dispatch] = useState({
-    template,
-    errors: template
-  });
+  const {user, dispatch, register} = useUser();
 
   const handleChange = e => {
-    dispatch({...user, [e.target.name]: e.target.value})
+    dispatch({...user, [e.target.name]: e.target.value});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    axios.post('/api/users/register', user)
-      .then(() => {
-        dispatch({...user});
-        props.history.push('/login')
-      })
-      .catch(err => {
-        console.log(err.response.data);
-        dispatch({...user, errors: err.response.data});
-      });
+    register(props);
   };
 
   return (
