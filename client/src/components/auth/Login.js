@@ -1,9 +1,10 @@
-import React , {useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import classnames from "classnames";
-import useUser from '../../hook/useUser';
+import AuthContext from '../../context/AuthContext';
 
 export default function Login(props) {
-  const {user, dispatch, login} = useUser();
+  // const {user, dispatch, login} = useUser();
+  const {user, dispatch, login} = useContext(AuthContext);
 
   useEffect(() => {
     if(user.isAuth){

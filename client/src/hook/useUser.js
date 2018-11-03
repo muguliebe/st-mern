@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import setAuthToken from "../utils/setAuthToken";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import AuthContext from '../context/AuthContext';
 
 function useUser() {
   const initial = {
@@ -19,9 +20,13 @@ function useUser() {
   };
 
   const [user, dispatch] = useState(initial);
+  const authContext      = useContext(AuthContext);
+  authContext.toggleAuth = () => {
+    authContext.isAuth = !authContext.isAuth
+  };
 
   useEffect(() => {
-    console.log('useUser init');
+    console.log('useUser] init');
     if (localStorage.token) {
       setAuthToken(localStorage.token);
       const decoded = jwtDecode(localStorage.token);
@@ -32,12 +37,10 @@ function useUser() {
         dispatch(initial);
         window.location.href = '/'; // TODO | have to test
       }
-
     }
   }, []);
 
-  const setErrors = (errors) => dispatch({...user, errros: errors});  // TODO | validate required
-  const login     = (props) => {
+  const login = (props) => {
     axios.post('/api/users/login', user)
       .then(res => {
         const {token} = res.data;

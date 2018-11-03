@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import useUser from "../hook/useUser";
+import React, { useEffect, useContext } from 'react';
+import AuthContext from '../context/AuthContext';
 
 const DashBoard = () => {
-  const {user} = useUser();
+  const {user} = useContext(AuthContext);
 
   useEffect(() => {
   }, [user.isAuth]);

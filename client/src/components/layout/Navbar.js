@@ -1,19 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import useUser from '../../hook/useUser';
+import AuthContext from '../../context/AuthContext';
 
-export default function Navbar() {
-  const {user, logout} = useUser();
+const Navbar = () => {
+
+  const {user, logout} = useContext(AuthContext);
 
   const handleLogout = e => {
-    // e.preventDefault();
+    e.preventDefault();
     logout();
   };
-
-  useEffect((e) => {
-    console.log('Navbar] isAuth:', user.isAuth);
-  }, [user.isAuth]);
-
 
   const guestLink = (
     <ul className="navbar-nav ml-auto">
@@ -65,3 +61,4 @@ export default function Navbar() {
     </nav>
   )
 }
+export default Navbar
