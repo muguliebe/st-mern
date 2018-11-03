@@ -4,7 +4,7 @@ import jwtDecode from "jwt-decode";
 import axios from "axios";
 
 function useUser() {
-  const [user, dispatch] = useState({
+  const initial = {
     name: '',
     email: '',
     password: '',
@@ -16,17 +16,23 @@ function useUser() {
       password: '',
       password2: '',
     }
-  });
+  };
+
+  const [user, dispatch] = useState(initial);
 
   useEffect(() => {
     console.log('useUser init');
     if (localStorage.token) {
-      console.log('useUser token found');
       setAuthToken(localStorage.token);
       const decoded = jwtDecode(localStorage.token);
-      console.log('useUser decoded:' + decoded);
       dispatch({...user, ...decoded, isAuth: true});
-      console.log('useUser dispatch complete true');
+
+      const currentTime = Date.now() / 1000;
+      if (decoded.exp < currentTime) {
+        dispatch(initial);
+        window.location.href = '/'; // TODO | have to test
+      }
+
     }
   }, []);
 
@@ -40,7 +46,7 @@ function useUser() {
         if (token !== undefined) {
           const decoded = jwtDecode(token);
           dispatch({...user, isAuth: true, ...decoded});
-          props.history.push('/dashboard');
+          props.history.push('/dashboard'); // FIXME | don't refresh navbar after this
         }
       })
       .catch(e => {
@@ -49,7 +55,7 @@ function useUser() {
       })
   };
 
-  const register  = (props) => {
+  const register = (props) => {
     axios.post('/api/users/register', user)
       .then(() => {
         dispatch({...user, password: '', password2: '', name: user.name});
@@ -61,8 +67,14 @@ function useUser() {
       })
   };
 
+  const logout = (props) => {
+    localStorage.removeItem('token');
+    setAuthToken(false);
+    dispatch(initial);
+  };
 
-  return {user, dispatch, login, register}
+
+  return {user, dispatch, register, login, logout}
 }
 
 export default useUser

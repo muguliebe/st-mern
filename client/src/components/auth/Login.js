@@ -1,17 +1,23 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 import classnames from "classnames";
 import useUser from '../../hook/useUser';
 
 export default function Login(props) {
   const {user, dispatch, login} = useUser();
 
+  useEffect(() => {
+    if(user.isAuth){
+      props.history.push('/dashboard');
+    }
+  }, [user.isAuth]);
+
   const handleChange = e => {
     dispatch({...user, [e.target.name]: e.target.value});
   };
 
   const handleSubmit = e => {
-    e.preventDefault();
     login(props);
+    e.preventDefault();
   };
 
   return (

@@ -5,10 +5,7 @@ const DashBoard = () => {
   const {user} = useUser();
 
   useEffect(() => {
-    console.log('isAuth >' + user.isAuth);
-    console.log('is in user. >' + user.isAuthenticated);
-    console.log('and .. >' + user.email);
-  });
+  }, [user.isAuth]);
 
   return (
     <div>
