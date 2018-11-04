@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import * as gstore from './gstore';
 import './App.css';
 
@@ -14,6 +14,7 @@ import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import DashBoard from "./components/DashBoard";
+import PrivateRoute from './components/common/PrivateRoute';
 
 
 const App = () => {
@@ -31,7 +32,7 @@ const App = () => {
           <div className="container">
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/dashboard" component={DashBoard} />
+            <PrivateRoute exact path="/dashboard" component={DashBoard} />
           </div>
           <Footer />
         </AuthContext.Provider>
