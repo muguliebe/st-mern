@@ -36,6 +36,9 @@ const DashBoard = () => {
       <Link to="/create-profile" className="btn btn-lg btn-info">
         Create Profile
       </Link>
+      <Link to="/feed" className="btn btn-lg btn-info ml-2">
+        go to feed
+      </Link>
     </div>
   );
 

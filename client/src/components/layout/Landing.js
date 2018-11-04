@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Landing() {
   return (
@@ -12,12 +13,12 @@ export default function Landing() {
                 Mongo + Express + React + Node.js
               </p>
               <hr />
-              <a href="/" className="btn btn-lg btn-info mr-2">
+              <Link to="/register" className="btn btn-lg btn-info mr-2">
                 Sign Up
-              </a>
-              <a href="/" className="btn btn-lg btn-light">
+              </Link>
+              <Link to="/login" className="btn btn-lg btn-light">
                 Login
-              </a>
+              </Link>
             </div>
           </div>
         </div>
