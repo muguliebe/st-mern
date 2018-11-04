@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react';
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import axios from 'axios';
 import AuthContext from "../../context/AuthContext";
+import PostContext from '../../context/PostContext';
 
 const PostForm = () => {
   const {user}                  = useContext(AuthContext);
+  const {posts, setPosts}       = useContext(PostContext);
   const [contents, setContents] = useState({
     text: '',
     errors: ''
@@ -22,6 +24,7 @@ const PostForm = () => {
     axios.post('/api/posts', newPost)
       .then(() => {
         setContents({...contents, text: '', errors: ''});
+        setPosts([newPost, ...posts]);
       })
       .catch(e => {
         console.log(e.response);

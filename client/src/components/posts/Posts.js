@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from '../common/Spinner';
+import PostContext from '../../context/PostContext';
 import PostForm from './PostForm';
 import PostFeed from './PostFeed';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,6 +21,7 @@ const Posts = () => {
   }, []);
 
   return (
+    <PostContext.Provider value={{posts, setPosts}}>
     <div className="feed">
       <div className="container">
         <div className="row">
@@ -28,9 +29,10 @@ const Posts = () => {
             <PostForm />
           </div>
         </div>
-        {loading ? <Spinner /> : <PostFeed posts={posts} />}
+        {loading ? <Spinner /> : <PostFeed key={posts.toString()} posts={posts} />}
       </div>
     </div>
+    </PostContext.Provider>
   );
 };
 
