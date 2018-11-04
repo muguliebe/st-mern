@@ -2,9 +2,11 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import AuthContext from "../../context/AuthContext";
+import PostContext from "../../context/PostContext";
 
 const PostItem = (props) => {
   const {user}           = useContext(AuthContext);
+  const {deletePost}     = useContext(PostContext);
   const [post, setPosts] = useState({
     name: '',
     text: '',
@@ -14,11 +16,15 @@ const PostItem = (props) => {
 
   useEffect(() => {
     setPosts(props.post);
-  }, [props.post]);
+  }, [props.posts]);
 
   const findUserLike = (likes) => {
     if (likes == null) return false;
     return likes.filter(like => like.user === user.id).length > 0;
+  };
+
+  const handleDelete = () => {
+    deletePost(post._id);
   };
 
   return (
@@ -52,10 +58,11 @@ const PostItem = (props) => {
               Comments
             </Link>
             {post.user !== user.id ? null : (
-              <button className="btn btn-danger mr-1">
+              <button className="btn btn-danger mr-1"
+                      onClick={handleDelete}>
                 <i className="fas fa-times" />
               </button>
-            )};
+            )}
           </span>
         </div>
       </div>

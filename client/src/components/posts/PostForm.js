@@ -5,31 +5,26 @@ import AuthContext from "../../context/AuthContext";
 import PostContext from '../../context/PostContext';
 
 const PostForm = () => {
-  const {user}                  = useContext(AuthContext);
-  const {posts, setPosts}       = useContext(PostContext);
-  const [contents, setContents] = useState({
+  const {user}                     = useContext(AuthContext);
+  const {posts, addPost, setPosts} = useContext(PostContext);
+  const [contents, setContents]    = useState({
     text: '',
     errors: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('post submit');
+
     const newPost = {
       name: user.name,
       avatar: user.avatar,
       text: contents.text
     };
 
-    axios.post('/api/posts', newPost)
-      .then(() => {
-        setContents({...contents, text: '', errors: ''});
-        setPosts([newPost, ...posts]);
-      })
-      .catch(e => {
-        console.log(e.response);
-        setContents({...contents, errors: e.response.data.text});
-      });
+    const result = await addPost(newPost);
+    console.log('result');
+    setContents({...contents, text: '', errors: ''});
   };
 
   return (

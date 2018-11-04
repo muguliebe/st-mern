@@ -4,34 +4,23 @@ import Spinner from '../common/Spinner';
 import PostContext from '../../context/PostContext';
 import PostForm from './PostForm';
 import PostFeed from './PostFeed';
+import usePosts from "../../hook/usePosts";
 
 const Posts = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    axios.get('/api/posts')
-      .then(res => {
-        setLoading(false);
-        setPosts(res.data);
-      })
-      .catch(e => {
-        console.log(e);
-      })
-  }, []);
+  const {posts, addPost, setPosts, deletePost, loading} = usePosts();
 
   return (
-    <PostContext.Provider value={{posts, setPosts}}>
-    <div className="feed">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <PostForm />
+    <PostContext.Provider value={{posts, addPost, setPosts, loading, deletePost}}>
+      <div className="feed">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <PostForm />
+            </div>
           </div>
+          {loading ? <Spinner /> : <PostFeed key={posts.toString()} posts={posts} />}
         </div>
-        {loading ? <Spinner /> : <PostFeed key={posts.toString()} posts={posts} />}
       </div>
-    </div>
     </PostContext.Provider>
   );
 };
