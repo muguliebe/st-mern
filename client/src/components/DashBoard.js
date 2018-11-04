@@ -14,15 +14,15 @@ const DashBoard = () => {
   });
 
   useEffect(() => {
-    if (user.isAuth) {
-      axios.get('/api/profile')
-        .then(res => {
-          setProfile(res.data);
-        })
-        .catch(e => {
-          console.error(e.response.data);
-        });
-    }
+    // if (user.isAuth) {
+    //   axios.get('/api/profile')
+    //     .then(res => {
+    //       setProfile(res.data);
+    //     })
+    //     .catch(e => {
+    //       console.error(e.response.data);
+    //     });
+    // }
   }, [user.isAuth]);
 
   const handleDeleteAccount = (e) => {

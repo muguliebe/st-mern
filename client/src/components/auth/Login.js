@@ -8,7 +8,7 @@ export default function Login(props) {
 
   useEffect(() => {
     if(user.isAuth){
-      props.history.push('/dashboard');
+      props.history.push('/feed');
     }
   }, [user.isAuth]);
 

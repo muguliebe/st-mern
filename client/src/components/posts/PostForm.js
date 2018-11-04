@@ -1,6 +1,34 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
+import axios from 'axios';
+import AuthContext from "../../context/AuthContext";
 
 const PostForm = () => {
+  const {user}                  = useContext(AuthContext);
+  const [contents, setContents] = useState({
+    text: '',
+    errors: ''
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('post submit');
+    const newPost = {
+      name: user.name,
+      avatar: user.avatar,
+      text: contents.text
+    };
+
+    axios.post('/api/posts', newPost)
+      .then(() => {
+        setContents({...contents, text: '', errors: ''});
+      })
+      .catch(e => {
+        console.log(e.response);
+        setContents({...contents, errors: e.response.data.text});
+      });
+  };
+
   return (
     <div className="post-form mb-3">
       <div className="card card-info">
@@ -8,9 +36,17 @@ const PostForm = () => {
           say something...
         </div>
         <div className="card-body">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <textarea className="form-control form-control-lg" placeholder="Create a post"></textarea>
+              <TextAreaFieldGroup
+                placeholder="create a post.."
+                name="text"
+                onChange={e => setContents({...contents, text: e.target.value})}
+                value={contents.text}
+                error={contents.errors}
+              >
+              </TextAreaFieldGroup>
+
             </div>
             <button type="submit" className="btn btn-dark">Submit</button>
           </form>

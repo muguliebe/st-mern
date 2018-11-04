@@ -48,7 +48,7 @@ function useUser() {
         if (token !== undefined) {
           const decoded = jwtDecode(token);
           dispatch({...user, isAuth: true, ...decoded});
-          props.history.push('/dashboard'); // FIXME | don't refresh navbar after this
+          props.history.push('/feed');
         }
       })
       .catch(e => {
