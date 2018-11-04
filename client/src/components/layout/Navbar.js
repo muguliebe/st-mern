@@ -53,7 +53,7 @@ const Navbar = () => {
             </li>
           </ul>
 
-          <Link className="" to="#">{user.isAuth ? 'IN' : 'GUEST'}</Link>
+          <Link className="" to="#">{user.isAuth ? user.name : ''}</Link>
           {user.isAuth ? authLink : guestLink}
 
         </div>

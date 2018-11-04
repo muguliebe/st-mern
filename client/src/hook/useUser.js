@@ -35,7 +35,6 @@ function useUser() {
       const currentTime = Date.now() / 1000;
       if (decoded.exp < currentTime) {
         dispatch(initial);
-        window.location.href = '/'; // TODO | have to test
       }
     }
   }, []);
