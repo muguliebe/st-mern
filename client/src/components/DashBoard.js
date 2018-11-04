@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars*/
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -7,7 +8,7 @@ import Spinner from './common/Spinner';
 import AuthContext from '../context/AuthContext';
 
 const DashBoard = () => {
-  const {user}                = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
   const [profile, setProfile] = useState({
     handle: '',
     name: ''
