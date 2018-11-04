@@ -17,9 +17,6 @@ import Posts from './components/posts/Posts';
 
 const App = () => {
   const {user, dispatch, login, logout} = useUser();
-  useEffect(() => {
-    gstore.init();
-  }, []);
 
   return (
     <Router>

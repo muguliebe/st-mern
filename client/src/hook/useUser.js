@@ -6,6 +6,7 @@ import AuthContext from '../context/AuthContext';
 
 function useUser() {
   const initial = {
+    id: '',
     name: '',
     email: '',
     password: '',
@@ -31,7 +32,6 @@ function useUser() {
       setAuthToken(localStorage.token);
       const decoded = jwtDecode(localStorage.token);
       dispatch({...user, ...decoded, isAuth: true});
-
       const currentTime = Date.now() / 1000;
       if (decoded.exp < currentTime) {
         dispatch(initial);

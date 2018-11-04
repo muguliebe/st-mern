@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import PostItem from "./PostItem";
 
 const PostFeed = (props) => {
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
-    console.log(props.posts);
-    if (props.posts) {
-      props.posts.map(e => console.log(e));
-    }
-  });
+    setPosts(props.posts);
+  }, [props.posts]);
+
   return (
-    props.posts.map(post => <div className="row"> {post._id} </div> )
+    posts.map(post => <PostItem key={post._id} post={post} />)
   )
+
 };
 
 export default PostFeed;
