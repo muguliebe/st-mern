@@ -1,12 +1,11 @@
-const Validator  = require('validator');
-const {required} = require('./');
-const isEmpty    = require('./is-empty');
+const {required} = require('./')
+const isEmpty = require('./is-empty')
 
 module.exports = function validateLoginInput(data) {
-  let errors = required(data, ['email', 'password']);
+  let errors = required(data, ['email', 'password'])
 
   return {
     errors,
     isValid: isEmpty(errors)
   }
-};
+}
