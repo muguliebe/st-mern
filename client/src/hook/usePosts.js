@@ -22,14 +22,14 @@ const usePosts = () => {
   };
 
   const addPost = (payload) => {
-    axios.post('/api/posts', payload)
+    return axios.post('/api/posts', payload)
       .then((res) => {
         setPosts([res.data, ...posts]);
-        return {errors: ''}
+        return ''
       })
       .catch(e => {
         console.log('usePosts] addPost error', e.response);
-        return {errors: e.response.data.text}
+        return e.response.data.text
       });
   };
 

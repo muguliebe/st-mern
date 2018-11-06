@@ -23,7 +23,11 @@ const PostForm = () => {
 
     const result = await addPost(newPost);
     console.log('result:', result);
-    setContents({...contents, text: '', errors: ''});
+    if(result) {
+      setContents({...contents, errors: result});
+    } else {
+      setContents({...contents, text: '', errors: ''});
+    }
   };
 
   return (
