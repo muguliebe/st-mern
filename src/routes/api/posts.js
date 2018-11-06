@@ -19,16 +19,25 @@ router.get('/test', (req, res) => {
 // @route   POST api/posts/
 // @desc    create post
 // @access  Private
-router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+// router.post('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/', async (req, res) => {
   const {errors, isValid} = validatePostInput(req.body);
   if (!isValid) {
     return res.status(400).json(errors);
   }
 
+  // get gravatar
+  const avatar = gravatar.url(req.body.email, {
+    s: '200', // size
+    r: 'pg',  // rating
+    d: 'mm'   // default
+  });
+
+  // make post payload
   const newPost = new Post({
     text: req.body.text,
     name: req.body.name,
-    avatar: req.body.avatar,
+    avatar: avatar,
     user: req.user.id
   });
 
@@ -40,7 +49,8 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req, res
 // @route   GET api/posts/
 // @desc    Get posts
 // @access  Private
-router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+// router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const posts = await Post.find()
       .sort({date: -1});

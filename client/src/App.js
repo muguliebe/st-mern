@@ -27,7 +27,7 @@ const App = () => {
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/dashboard" component={DashBoard} />
-            <PrivateRoute exact path="/feed" component={Posts} />
+            <Route exact path="/feed" component={Posts} />
           </div>
           <Footer />
         </AuthContext.Provider>
