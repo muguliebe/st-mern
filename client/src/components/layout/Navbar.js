@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import AuthContext from '../../context/AuthContext';
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import AuthContext from '../../context/AuthContext'
 
 const Navbar = () => {
 
-  const {user, logout} = useContext(AuthContext);
+  const {user, logout} = useContext(AuthContext)
 
   const handleLogout = e => {
-    e.preventDefault();
-    logout();
-  };
+    e.preventDefault()
+    logout()
+  }
 
   const guestLink = (
     <ul className="navbar-nav ml-auto">
@@ -20,7 +20,7 @@ const Navbar = () => {
         <Link className="nav-link" to="/login">Login</Link>
       </li>
     </ul>
-  );
+  )
 
   const authLink = (
     <ul className="navbar-nav ml-auto">
@@ -35,7 +35,7 @@ const Navbar = () => {
         </a>
       </li>
     </ul>
-  );
+  )
 
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
@@ -48,8 +48,10 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="mobile-nav">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/feed"> Feeds
-              </Link>
+              <Link className="nav-link" to="/feed">Feeds</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/hook">Hook</Link>
             </li>
           </ul>
 

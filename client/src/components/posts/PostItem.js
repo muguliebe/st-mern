@@ -6,7 +6,6 @@ import PostContext from '../../context/PostContext'
 const PostItem = (props) => {
   const {user}                             = useContext(AuthContext)
   const {deletePost, likePost, unlikePost} = useContext(PostContext)
-  const [likes, setLikes]                  = useState()
 
   const [post, setPosts] = useState({
     name: '',
@@ -40,7 +39,7 @@ const PostItem = (props) => {
     <div className="card card-body mb-3">
       <div className="row">
         <div className="col-md-2">
-          <a href="">
+          <a href="test.html">
             <img
               className="rounded-circle d-none d-md-block"
               src={post.avatar}
