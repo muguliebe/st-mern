@@ -5,9 +5,9 @@ import AuthContext from "../../context/AuthContext";
 import PostContext from "../../context/PostContext";
 
 const PostItem = (props) => {
-  const {user}           = useContext(AuthContext);
-  const {deletePost}     = useContext(PostContext);
-  const [post, setPosts] = useState({
+  const {user}                             = useContext(AuthContext);
+  const {deletePost, likePost, unlikePost} = useContext(PostContext);
+  const [post, setPosts]                   = useState({
     name: '',
     text: '',
     avatar: '',
@@ -27,6 +27,14 @@ const PostItem = (props) => {
     deletePost(post._id);
   };
 
+  const handleThumbsUp = () => {
+    likePost(post._id);
+  };
+
+  const handleThumbsDown = () => {
+    unlikePost(post._id);
+  };
+
   return (
     <div className="card card-body mb-3">
       <div className="row">
@@ -35,6 +43,7 @@ const PostItem = (props) => {
             <img
               className="rounded-circle d-none d-md-block"
               src={post.avatar}
+              style={{width: '80px'}}
               alt={post.name}
             />
           </a>
@@ -44,19 +53,18 @@ const PostItem = (props) => {
         <div className="col-md-10">
           <p className="lead">{post.text}</p>
           <span>
-            <button className="btn btn-light mr-1">
+            <button className="btn btn-light mr-1"
+                    onClick={handleThumbsUp}>
               <i className={classnames('fas fa-thumbs-up', {
                 'text-info': findUserLike(post.likes)
               })}
               />
               <span className="badge badge-light">{post.likes ? post.likes.length : 0}</span>
             </button>
-            <button className="btn btn-light mr-1">
+            <button className="btn btn-light mr-1"
+                    onClick={handleThumbsDown}>
               <i className="text-secondary fas fa-thumbs-down" />
             </button>
-            <Link to="" className="btn btn-info mr-1">
-              Comments
-            </Link>
             {post.user !== user.id ? null : (
               <button className="btn btn-danger mr-1"
                       onClick={handleDelete}>

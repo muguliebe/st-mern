@@ -7,10 +7,10 @@ import PostFeed from './PostFeed';
 import usePosts from "../../hook/usePosts";
 
 const Posts = () => {
-  const {posts, addPost, setPosts, deletePost, loading} = usePosts();
+  const {posts, addPost, setPosts, deletePost, loading, likePost, unlikePost} = usePosts();
 
   return (
-    <PostContext.Provider value={{posts, addPost, setPosts, loading, deletePost}}>
+    <PostContext.Provider value={{posts, addPost, setPosts, loading, deletePost, likePost, unlikePost}}>
       <div className="feed">
         <div className="container">
           <div className="row">
