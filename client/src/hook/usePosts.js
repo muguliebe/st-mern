@@ -45,13 +45,13 @@ const usePosts = () => {
   };
 
   const likePost = (postId) => {
-    axios.post(`/api/posts/like/${postId}`)
+    axios.post(`/api/posts/${postId}/like`)
       .then(() => getPost())
       .catch(e => e.response.data);
   };
 
   const unlikePost = (postId) => {
-    axios.post(`/api/posts/unlike/${postId}`)
+    axios.post(`/api/posts/${postId}/unlike`)
       .then(() => getPost())
       .catch(e => e.response.data);
   };

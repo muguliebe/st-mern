@@ -1,74 +1,73 @@
-const express    = require('express');
-const mongoose   = require('mongoose');
-const bodyParser = require('body-parser');
-const passport   = require('passport');
-const path       = require('path');
+const express      = require('express')
+const mongoose     = require('mongoose')
+const bodyParser   = require('body-parser')
+const passport     = require('passport')
+const path         = require('path')
+const readReadSync = require('recursive-readdir-sync')
 
-// router
-const users   = require('./src/routes/api/users');
-const profile = require('./src/routes/api/profile');
-const posts   = require('./src/routes/api/posts');
-const test    = require('./src/routes/api/test');
+// router & service
+const {allAround} = require('./src/service/advice')
 
 // initialization
-const app = express();
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+const app    = express()
+const router = express.Router()
+app.use(router)
+router.use(bodyParser.urlencoded({extended: false}))
+router.use(bodyParser.json())
 
 // filter
-app.use((req, res, next) => {
-  const startDate = new Date();
-  const end       = res.end;
-
-  console.log(`${req.method} ${req.originalUrl} start`);
-
-  res.end = function () {
-    end.apply(res, arguments);
-    const elapsed = new Date() - startDate;
-    console.log(`${req.method} ${req.originalUrl} ended [${elapsed} ms] with ${res.statusCode}`);
-  };
-
-  next()
-});
+router.use(allAround())
 
 // DB config
-const db = require('./src/config/keys').mongoURI;
-
-// connect to mongodb
+const db = require('./src/config/keys').mongoURI
 mongoose.connect(db, {useNewUrlParser: true})
   .then(() => console.log('mongo DB Connected'))
   .catch(err => console.log(err))
-;
-
-// passport config
-app.use(passport.initialize());
-require('./src/config/passport')(passport);
 
 // controller
-app.use('/api/users', users);
-app.use('/api/profile', profile);
-app.use('/api/posts', posts);
-app.use('/api/test', test);
+const routeBind = function () {
+  try {
+    const controllers = path.join(__dirname, './src/routes/')
+    console.log(`controller(routes) bind start at ${controllers}`)
+    readReadSync(controllers)
+      .filter(file => file.split('.').pop() === 'js')
+      .forEach(file => {
+        try {
+          console.log(`route bind: ${file}`)
+          router.use(require(file));
+        } catch (err) {
+          console.log(`mount controller err occurred at ${file}\n\t ${err}`)
+          throw new Error(`${file}:${err}`)
+        }
+      })
+  } catch (err) {
+    console.log(`err occurred: ${err}`)
+  }
+}()
 
+// passport config
+app.use(passport.initialize())
+require('./src/config/passport')(passport)
+
+// client file serving
 if (process.env.NODE_ENV === 'production') {
 // Set static folder
-  app.use(express.static('client/build'));
+  app.use(express.static('client/build'))
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
 }
-
 
 // error handling
 app.use((err, req, res, next) => {
-  console.error(err.message);
+  console.error(err.message)
   if (res.headersSent) {
     return next(err)
   }
-  res.status(500).send({error: err.message});
-});
+  res.status(500).send({error: err.message})
+})
 
 // server start
-const port = process.env.PORT || 3001;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+const port = process.env.PORT || 3001
+app.listen(port, () => console.log(`Server running on port ${port}`))
