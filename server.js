@@ -5,10 +5,10 @@ const passport   = require('passport');
 const path       = require('path');
 
 // router
-const users   = require('./routes/api/users');
-const profile = require('./routes/api/profile');
-const posts   = require('./routes/api/posts');
-const test    = require('./routes/api/test');
+const users   = require('./src/routes/api/users');
+const profile = require('./src/routes/api/profile');
+const posts   = require('./src/routes/api/posts');
+const test    = require('./src/routes/api/test');
 
 // initialization
 const app = express();
@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 // DB config
-const db = require('./config/keys').mongoURI;
+const db = require('./src/config/keys').mongoURI;
 
 // connect to mongodb
 mongoose.connect(db, {useNewUrlParser: true})
@@ -42,7 +42,7 @@ mongoose.connect(db, {useNewUrlParser: true})
 
 // passport config
 app.use(passport.initialize());
-require('./config/passport')(passport);
+require('./src/config/passport')(passport);
 
 // controller
 app.use('/api/users', users);
@@ -52,10 +52,10 @@ app.use('/api/test', test);
 
 if (process.env.NODE_ENV === 'production') {
 // Set static folder
-  app.use(express.static('../client/build'));
+  app.use(express.static('client/build'));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../', 'client', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
 

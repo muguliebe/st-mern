@@ -2,14 +2,14 @@
   "name": "st-mern",
   "version": "1.0.0",
   "description": "mern",
-  "main": "src/server.js",
+  "main": "server.js",
   "author": "zany",
   "license": "MIT",
   "scripts": {
     "client-install": "npm install --prefix client",
     "tt": "node src/tt.js",
-    "start": "node src/server.js",
-    "watch": "nodemon -w src --exec yarn start",
+    "start": "node server.js",
+    "watch": "nodemon -w src -w server.js --exec yarn start",
     "client": "npm start --prefix client",
     "dev": "concurrently --kill-others-on-fail \"npm run watch\" \"npm run client\"",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
