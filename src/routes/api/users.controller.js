@@ -7,10 +7,12 @@ const keys = require('../../config/keys')
 const passport = require('passport')
 const validateRegisterInput = require('../../validation/register')
 const validateLoginInput = require('../../validation/login')
+const {required} = require('../../validation')
 
 // load user model
 const User = require('../../models/User')
 
+// @routeInit /api/users
 function init(router) {
 
   const url = '/api/users'
@@ -24,7 +26,7 @@ function init(router) {
   return router
 }
 
-// @route   GET api/users/test
+// @route   GET /users/test
 // @desc    Test post route
 // @access  Public
 const test = (req, res) => {
@@ -32,7 +34,7 @@ const test = (req, res) => {
 }
 
 
-// @route   POST api/users/register
+// @route   POST /users/register
 // @desc    User SignUp
 // @access  Public
 const register = (req, res) => {
@@ -75,7 +77,7 @@ const register = (req, res) => {
     })
 }
 
-// @route   GET api/users/login
+// @route   GET /users/login
 // @desc    Login User / Returning JWT Token
 // @access  Public
 const login = async (req, res) => {
@@ -115,7 +117,7 @@ const login = async (req, res) => {
 
 }
 
-// @route   GET api/users/current
+// @route   GET /users/current
 // @desc    Return current user
 // @access  Public
 const getCurrentUser = (req, res) => {

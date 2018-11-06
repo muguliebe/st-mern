@@ -1,7 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const passport = require('passport')
-const Profile = require('../../models/Profile')
+const express           = require('express')
+const router            = express.Router()
+const passport          = require('passport')
+const ProfileController = require('../../models/Profile')
 
 // load validation
 const validateProfileInput = require('../../validation/profile')
@@ -53,10 +53,10 @@ const postProfile = async (req, res) => {
       .filter(key => req.body[key])
       .forEach(key => profileFields.social[key] = req.body[key])
 
-    const profile = await Profile.findOne({user: req.user.id})
+    const profile = await ProfileController.findOne({user: req.user.id})
       .populate('user', ['name', 'avatar'])
     if (profile) {
-      const profile = await Profile.findOneAndUpdate(
+      const profile = await ProfileController.findOneAndUpdate(
         {user: req.user.id},
         {$set: profileFields},
         {new: true}
@@ -64,15 +64,15 @@ const postProfile = async (req, res) => {
       res.json(profile)
     } else {
       // Check if handle exists
-      const profile = await Profile.findOne({handle: profileFields.handle})
+      const profile = await ProfileController.findOne({handle: profileFields.handle})
       if (profile) {
         errors.handle = 'That handle already exists'
         return res.status(400).json(errors)
       }
 
-      // Save Profile
+      // Save ProfileController
       const profileSaved = await
-        new Profile(profileFields).save()
+        new ProfileController(profileFields).save()
       res.json(profileSaved)
     }
   } catch (e) {
@@ -86,7 +86,7 @@ const postProfile = async (req, res) => {
 const getProfile = async (req, res) => {
   const errors = {}
   try {
-    const profile = await Profile.findOne({user: req.user.id})
+    const profile = await ProfileController.findOne({user: req.user.id})
       .populate('user', ['name', 'avatar'])
 
     if (!profile) {
@@ -105,7 +105,7 @@ const getProfile = async (req, res) => {
 const getProfiles = async (req, res) => {
   const errors = {}
   try {
-    const profiles = await Profile.find()
+    const profiles = await ProfileController.find()
       .populate('user', ['name', 'avatar'])
     if (!profiles) {
       errors.noprofile = 'There are no profiles'

@@ -1,2 +1,4 @@
-const path       = require('path');
-console.log(path.resolve(__dirname, '../', 'client', 'build', 'index.html'));
+const email = 'aa@a.com'
+const name = email.split('@').shift()
+console.log(name)
+console.log(email)

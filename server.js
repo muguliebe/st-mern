@@ -34,7 +34,7 @@ const routeBind = function () {
       .forEach(file => {
         try {
           console.log(`route bind: ${file}`)
-          router.use(require(file));
+          router.use(require(file))
         } catch (err) {
           console.log(`mount controller err occurred at ${file}\n\t ${err}`)
           throw new Error(`${file}:${err}`)

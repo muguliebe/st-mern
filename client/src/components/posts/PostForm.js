@@ -9,7 +9,7 @@ const PostForm = () => {
   const [contents, setContents] = useState({
     text: '',
     email: '',
-    emailErrors: '',
+    emailErrors: 'email must be entered',
     errors: ''
   });
 
@@ -19,7 +19,8 @@ const PostForm = () => {
 
     const newPost = {
       name: user.name,
-      text: contents.text
+      text: contents.text,
+      email: contents.email
     };
 
     const result = await addPost(newPost);

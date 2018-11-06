@@ -1,6 +1,6 @@
 const Validator = require('validator')
 
-const isEmpty = value =>
+export const isEmpty = value =>
   value === undefined ||
   value === null ||
   (typeof value === 'object' && Object.keys(value).length === 0) ||
@@ -8,7 +8,7 @@ const isEmpty = value =>
 
 // @param data
 // @param fields ex) ['field1', 'field2', 'field3']
-const required = (data, fields) => {
+export const required = (data, fields) => {
   const errors = {}
 
   fields.map(key => {
@@ -19,9 +19,4 @@ const required = (data, fields) => {
     .forEach(key => errors[key] = key + ' field is required')
 
   return errors
-}
-
-module.exports = {
-  isEmpty,
-  required
 }

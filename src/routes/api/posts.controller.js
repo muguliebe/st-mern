@@ -1,22 +1,19 @@
-const express = require('express')
-const router = express.Router()
-const passport = require('passport')
-
-// model
-const User = require('../../models/User')
-const Post = require('../../models/Post')
-
-// lord validator
+const express           = require('express')
+const router            = express.Router()
+const passport          = require('passport')
+const User              = require('../../models/User')
+const Post              = require('../../models/Post')
+const serviceUser       = require('../../service/user.service')
 const validatePostInput = require('../../validation/post')
 
 function init(router) {
 
-  const url = '/api/posts'
+  const url          = '/api/posts'
   const passportAuth = passport.authenticate('jwt', {session: false})
 
-  router.get(url + '/test', test)
+  router.get(url.concat('/test'), test)
   router.get(url, getPosts)
-  router.post(url, passportAuth, savePost)
+  router.post(url, postPost)
   router.get(url.concat('/:id'), passportAuth, getPost)
   router.delete(url.concat('/:id'), passportAuth, deletePost)
   router.post(url.concat('/:id/like'), passportAuth, like)
@@ -30,30 +27,26 @@ function init(router) {
 // @desc    Test post route
 // @access  Public
 const test = (req, res) => {
-  res.json({msg: 'profile Works'})
+  res.json({msg: 'profile Works!'})
 }
 
 // @route   POST api/posts/
 // @desc    create post
 // @access  Private
-const savePost = async (req, res) => {
+const postPost = async (req, res) => {
   const {errors, isValid} = validatePostInput(req.body)
   if (!isValid) {
     return res.status(400).json(errors)
   }
 
-  // get gravatar
-  const avatar = gravatar.url(req.body.email, {
-    s: '200', // size
-    r: 'pg',  // rating
-    d: 'mm'   // default
-  })
+  // get User or Create anyway
+  const user = serviceUser.getUserOrCreate(req.body.email)
 
   // make post payload
   const newPost = new Post({
     text: req.body.text,
     name: req.body.name,
-    avatar: avatar,
+    avatar: user.avatar,
     user: req.user.id
   })
 
@@ -70,6 +63,7 @@ const getPosts = async (req, res) => {
       .sort({date: -1})
     res.json(posts)
   } catch (e) {
+    console.log('404')
     return res.status(404).json({nopostfound: 'No post found'})
   }
 }
@@ -131,7 +125,7 @@ const like = async (req, res) => {
 // @desc    unlike post
 // @access  Private
 const unlike = async (req, res) => {
-  let user = await User.findById(req.user.id)
+  let user = await User.findById(req.body.email)
 
   try {
     let post = await Post.findById(req.params.id)
@@ -157,7 +151,6 @@ const unlike = async (req, res) => {
 // @route   POST api/posts/comment/:id
 // @desc    add comment to post
 // @access  Private
-// router.post('/comment/:id', passport.authenticate('jwt', {session: false}),
 const addComment = async (req, res) => {
   const {errors, isValid} = validatePostInput(req.body)
   if (!isValid) {
