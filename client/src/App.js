@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import * as gstore from './gstore';
 import './App.css';
 // context & hook
 import AuthContext from './context/AuthContext';
