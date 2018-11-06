@@ -1,38 +1,40 @@
-import React, { useContext, useEffect, useState } from 'react';
-import classnames from 'classnames';
-import AuthContext from "../../context/AuthContext";
-import PostContext from "../../context/PostContext";
+import React, { useContext, useEffect, useState } from 'react'
+import classnames from 'classnames'
+import AuthContext from '../../context/AuthContext'
+import PostContext from '../../context/PostContext'
 
 const PostItem = (props) => {
-  const {user}                             = useContext(AuthContext);
-  const {deletePost, likePost, unlikePost} = useContext(PostContext);
-  const [post, setPosts]                   = useState({
+  const {user}                             = useContext(AuthContext)
+  const {deletePost, likePost, unlikePost} = useContext(PostContext)
+  const [likes, setLikes]                  = useState()
+
+  const [post, setPosts] = useState({
     name: '',
     text: '',
     avatar: '',
     user: ''
-  });
+  })
 
   useEffect(() => {
-    setPosts(props.post);
-  }, [props.posts]);
+    setPosts(props.post)
+  }, [props.post])
 
   const findUserLike = (likes) => {
-    if (likes == null) return false;
-    return likes.filter(like => like.user === user.id).length > 0;
-  };
+    if (likes == null) return false
+    return likes.filter(like => like.user === user.id).length > 0
+  }
 
   const handleDelete = () => {
-    deletePost(post._id);
-  };
+    deletePost(post._id)
+  }
 
   const handleThumbsUp = () => {
-    likePost(post._id);
-  };
+    likePost(post._id)
+  }
 
   const handleThumbsDown = () => {
-    unlikePost(post._id);
-  };
+    unlikePost(post._id)
+  }
 
   return (
     <div className="card card-body mb-3">
@@ -75,6 +77,6 @@ const PostItem = (props) => {
       </div>
     </div>
   )
-};
+}
 
-export default PostItem;
+export default PostItem
