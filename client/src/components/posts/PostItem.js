@@ -65,12 +65,10 @@ const PostItem = (props) => {
                     onClick={handleThumbsDown}>
               <i className="text-secondary fas fa-thumbs-down" />
             </button>
-            {post.user !== user.id ? null : (
               <button className="btn btn-danger mr-1"
                       onClick={handleDelete}>
                 <i className="fas fa-times" />
               </button>
-            )}
           </span>
         </div>
       </div>

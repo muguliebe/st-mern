@@ -9,7 +9,8 @@ const validatePostInput = require('../../validation/post')
 function init(router) {
 
   const url          = '/api/posts'
-  const passportAuth = passport.authenticate('jwt', {session: false})
+  // const passportAuth = passport.authenticate('jwt', {session: false})
+  const passportAuth = (req, res, next) => {next()}
 
   router.get(url.concat('/test'), test)
   router.get(url, getPosts)
@@ -40,18 +41,25 @@ const postPost = async (req, res) => {
   }
 
   // get User or Create anyway
-  const user = serviceUser.getUserOrCreate(req.body.email)
+  try {
+    const user = await serviceUser.getUserOrCreate(req.body.email)
+    console.log(user)
 
-  // make post payload
-  const newPost = new Post({
-    text: req.body.text,
-    name: req.body.name,
-    avatar: user.avatar,
-    user: req.user.id
-  })
+    // make post payload
+    const newPost = new Post({
+      text: req.body.text,
+      name: user.name,
+      avatar: user.avatar,
+      user: user.id
+    })
 
-  let savedPost = await newPost.save()
-  res.status(200).json(savedPost)
+    let savedPost = await newPost.save()
+    res.status(200).json(savedPost)
+
+  } catch (e) {
+    console.log(e)
+    res.status(500).json(e)
+  }
 }
 
 // @route   GET api/posts/
@@ -84,13 +92,13 @@ const getPost = async (req, res) => {
 // @desc    Get posts
 // @access  Private
 const deletePost = async (req, res) => {
-  let user = await User.findById(req.user.id)
+  // let user = await User.findById(req.body.email)
 
   try {
     let post = await Post.findById(req.params.id)
-    if (post.user.toString() !== user.id) {
-      return res.status(401).json({notauthorized: 'only can delete by owner'})
-    }
+    // if (post.user.toString() !== user.id) {
+    //   return res.status(401).json({notauthorized: 'only can delete by owner'})
+    // }
     post.remove().then(() => res.json({success: true}))
 
   } catch (e) {
@@ -104,7 +112,7 @@ const deletePost = async (req, res) => {
 // @desc    like post
 // @access  Private
 const like = async (req, res) => {
-  let user = await User.findById(req.user.id)
+  let user = await User.findById(req.body.email)
 
   try {
     let post = await Post.findById(req.params.id)
