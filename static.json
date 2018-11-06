@@ -1,5 +1,5 @@
 {
-  "root": "build/",
+  "root": "clint/build/",
   "clean_urls": false,
   "routes": {
     "/**": "index.html"
