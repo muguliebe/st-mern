@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import AuthContext from '../../context/AuthContext'
-import PostContext from '../../context/PostContext'
+import usePosts from '../../hook/usePosts'
 
 const PostItem = (props) => {
   const {user}                             = useContext(AuthContext)
-  const {deletePost, likePost, unlikePost} = useContext(PostContext)
+  const {deletePost, likePost, unlikePost} = usePosts()
 
   const [post, setPosts] = useState({
     name: '',

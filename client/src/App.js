@@ -14,6 +14,7 @@ import DashBoard from "./components/DashBoard";
 import PrivateRoute from './components/common/PrivateRoute';
 import Posts from './components/posts/Posts';
 import Hook from './components/etc/HookComponent'
+import HookGlobal from './components/etc/HookGlobalComponent'
 
 const App = () => {
   const {user, dispatch, login, logout} = useUser();
@@ -30,6 +31,7 @@ const App = () => {
             <PrivateRoute exact path="/dashboard" component={DashBoard} />
             <PrivateRoute exact path="/feed" component={Posts} />
             <Route exact path="/hook" component={Hook} />
+            <Route exact path="/hook-global" component={HookGlobal} />
           </div>
           <Footer />
         </AuthContext.Provider>

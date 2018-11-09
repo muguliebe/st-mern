@@ -7,6 +7,7 @@ const HookComponent = () => {
     value2: ''
   })
 
+
   return (
     <div>
       <div className="row">

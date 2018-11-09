@@ -1,15 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Spinner from '../common/Spinner';
 import PostContext from '../../context/PostContext';
 import PostForm from './PostForm';
 import PostFeed from './PostFeed';
 import usePosts from "../../hook/usePosts";
+import { createStore, useStore } from 'react-hookstore'
 
 const Posts = () => {
-  const {posts, addPost, setPosts, deletePost, loading, likePost, unlikePost} = usePosts();
+  const {posts, getPost, loading} = usePosts();
+
+  useEffect(() => {
+    getPost()
+  }, [])
 
   return (
-    <PostContext.Provider value={{posts, addPost, setPosts, loading, deletePost, likePost, unlikePost}}>
       <div className="feed">
         <div className="container">
           <div className="row">
@@ -17,10 +21,9 @@ const Posts = () => {
               <PostForm />
             </div>
           </div>
-          {loading ? <Spinner /> : <PostFeed key={posts.toString()} posts={posts} />}
+          {loading? <Spinner/> : <PostFeed key={posts} posts={posts} />}
         </div>
       </div>
-    </PostContext.Provider>
   );
 };
 

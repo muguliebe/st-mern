@@ -53,6 +53,9 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/hook">Hook</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/hook-global">HookGlobal</Link>
+            </li>
           </ul>
 
           <Link className="" to="#">{user.isAuth ? user.name : ''}</Link>

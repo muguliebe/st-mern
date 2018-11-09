@@ -1,34 +1,34 @@
-import React, { useContext, useState } from 'react';
-import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
-import AuthContext from "../../context/AuthContext";
-import PostContext from '../../context/PostContext';
+import React, { useContext, useState } from 'react'
+import TextAreaFieldGroup from '../common/TextAreaFieldGroup'
+import AuthContext from '../../context/AuthContext'
+import usePosts from '../../hook/usePosts'
 
 const PostForm = () => {
-  const {user}                  = useContext(AuthContext);
-  const {addPost}               = useContext(PostContext);
+  const {user}                  = useContext(AuthContext)
+  const {addPost}               = usePosts()
   const [contents, setContents] = useState({
     text: '',
     errors: ''
-  });
+  })
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('post submit');
+    e.preventDefault()
+    console.log('post submit')
 
     const newPost = {
       name: user.name,
       avatar: user.avatar,
       text: contents.text
-    };
-
-    const result = await addPost(newPost);
-    console.log('result:', result);
-    if(result) {
-      setContents({...contents, errors: result});
-    } else {
-      setContents({...contents, text: '', errors: ''});
     }
-  };
+
+    const result = await addPost(newPost)
+    console.log('result:', result)
+    if (result) {
+      setContents({...contents, errors: result})
+    } else {
+      setContents({...contents, text: '', errors: ''})
+    }
+  }
 
   return (
     <div className="post-form mb-3">
@@ -54,7 +54,7 @@ const PostForm = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PostForm;
+export default PostForm

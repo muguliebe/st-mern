@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { createStore, useStore } from 'react-hookstore'
+
+createStore({name: 'posts', state: []})
 
 const usePosts = () => {
-  const [posts, setPosts]     = useState([]);
+  const [state, setPosts]     = useStore('posts');
   const [loading, setLoading] = useState(true);
+  const posts = state.posts
 
-  useEffect(() => {
-    getPost();
-  }, []);
+  // useEffect(() => {
+  //   getPost();
+  // }, []);
 
   const getPost = () => {
     axios.get('/api/posts')
@@ -24,11 +28,11 @@ const usePosts = () => {
   const addPost = (payload) => {
     return axios.post('/api/posts', payload)
       .then((res) => {
-        setPosts([res.data, ...posts]);
+        setPosts([res.data, ...state]);
         return ''
       })
       .catch(e => {
-        console.log('usePosts] addPost error', e.response);
+        console.log('usePosts] addPost error', e);
         return e.response.data.text
       });
   };
@@ -36,7 +40,7 @@ const usePosts = () => {
   const deletePost = (postId) => {
     axios.delete(`/api/posts/${postId}`)
       .then(() => {
-        const filteredPosts = posts.filter(post => post._id !== postId);
+        const filteredPosts = state.filter(post => post._id !== postId);
         setPosts(filteredPosts);
       })
       .catch(e => {
@@ -55,7 +59,7 @@ const usePosts = () => {
       .then(() => getPost())
       .catch(e => e.response.data);
   };
-  return {posts, setPosts, deletePost, loading, addPost, likePost, unlikePost}
+  return {posts, getPost, setPosts, deletePost, loading, addPost, likePost, unlikePost}
 };
 
 export default usePosts;
