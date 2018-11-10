@@ -1,12 +1,12 @@
-const express         = require('express')
-const routerBind      = require('./src/routes/')
-const getEnvironments = require('./src/config/env')
-const dbConnect       = require('./src/config/db')
+const express    = require('express')
+const routerBind = require('./src/routes/')
+const env        = require('./src/config/env')
+const db         = require('./src/config/db')
 
 
 const app = express()
-app.use(getEnvironments())  // initialization
-dbConnect()                 // DB config
+app.use(env.getEnvironment())  // initialization
+db.connect()                 // DB config
 app.use(routerBind())       // controller
 
 // client file serving

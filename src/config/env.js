@@ -31,4 +31,4 @@ const setProd = () => {
 
 }
 
-module.exports = getEnvironment
+module.exports = {getEnvironment}

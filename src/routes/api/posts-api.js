@@ -1,5 +1,5 @@
-const express = require('express')
-const router = express.Router()
+const express  = require('express')
+const router   = express.Router()
 const passport = require('passport')
 
 // model
@@ -11,7 +11,7 @@ const validatePostInput = require('../../validation/post')
 
 function init(router) {
 
-  const url = '/api/posts'
+  const url          = '/api/posts'
   const passportAuth = passport.authenticate('jwt', {session: false})
 
   router.get(url + '/test', test)
@@ -60,7 +60,7 @@ const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
       .sort({date: -1})
-    res.json(posts)
+    return res.json(posts)
   } catch (e) {
     return res.status(404).json({nopostfound: 'No post found'})
   }
