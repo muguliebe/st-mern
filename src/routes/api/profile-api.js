@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
-const Profile = require('../../models/Profile')
+const Profile = require('../../models/profile-model')
 
 // load validation
 const validateProfileInput = require('../../validation/profile')

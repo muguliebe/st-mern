@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const Schema   = mongoose.Schema
 
 // Create Schema
 const ProfileSchema = new Schema({
@@ -39,8 +39,7 @@ const ProfileSchema = new Schema({
     facebook: {type: String},
     linkedin: {type: String},
     instagram: {type: String}
-  },
-  date: {type: Date, default: Date.now}
-})
+  }
+}, {timestamps: true})
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema)

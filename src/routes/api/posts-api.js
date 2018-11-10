@@ -3,8 +3,8 @@ const router = express.Router()
 const passport = require('passport')
 
 // model
-const User = require('../../models/User')
-const Post = require('../../models/Post')
+const User = require('../../models/user-model')
+const Post = require('../../models/post-model')
 
 // lord validator
 const validatePostInput = require('../../validation/post')
@@ -203,6 +203,7 @@ const deleteComment = async (req, res) => {
       console.error(e)
       res.status(404).json({postnotfound: 'No Post found', detail: e.message})
     })
+
 }
 
 module.exports = init(router)
