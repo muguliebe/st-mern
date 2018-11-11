@@ -15,7 +15,7 @@ function init(router) {
 }
 
 const postTask = (req, res) => {
-  const error = required(req.body, ['title', 'body'])
+  const error = required(req.body, ['title', 'body', 'author'])
   if (!isEmpty(error)) {
     return res.status(400).json(error)
   }
