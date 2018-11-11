@@ -21,7 +21,7 @@ const TaskAll = () => {
         </div>
 
         <div className="d-flex flex-wrap justify-content-start">
-          {tasks.map(task => <TaskItem key={task._id} task={task} />)}
+           task loop
         </div>
       </div>
     </div>
