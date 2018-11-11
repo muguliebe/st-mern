@@ -51,6 +51,10 @@ const Navbar = () => {
               <Link className="nav-link" to="/feed"> Feeds
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/tasks"> task
+              </Link>
+            </li>
           </ul>
 
           <Link className="" to="#">{user.isAuth ? user.name : ''}</Link>

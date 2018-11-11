@@ -13,6 +13,7 @@ import Register from './components/auth/Register';
 import DashBoard from "./components/DashBoard";
 import PrivateRoute from './components/common/PrivateRoute';
 import Posts from './components/posts/Posts';
+import TaskAll from './components/tasks/TaskAll';
 
 const App = () => {
   const {user, dispatch, login, logout} = useUser();
@@ -28,6 +29,7 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/dashboard" component={DashBoard} />
             <PrivateRoute exact path="/feed" component={Posts} />
+            <Route exact path="/tasks" component={TaskAll} />
           </div>
           <Footer />
         </AuthContext.Provider>

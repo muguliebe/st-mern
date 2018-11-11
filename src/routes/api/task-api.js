@@ -3,7 +3,7 @@ const router              = require('express').Router()
 const Task                = require('../../models/task-model')
 
 function init(router) {
-  const url = '/api/task'
+  const url = '/api/tasks'
 
   router.post(url, postTask)
   router.get(url, getTasks)
@@ -28,11 +28,11 @@ const postTask = (req, res) => {
 }
 
 const getTasks = async (req, res) => {
-  const task = await Task.find()
-  if (!task || task.length === 0) {
+  const tasks = await Task.find()
+  if (!tasks || tasks.length === 0) {
     return res.status(404).json({errors: 'there is no task'})
   }
-  res.json(task)
+  res.json(tasks)
 }
 
 const getTask = async (req, res) => {
