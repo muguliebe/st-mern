@@ -8,6 +8,7 @@ const routerBind = () => {
     console.log(`controller(routes) bind start at ${controllers}`)
     readReadSync(controllers)
       .filter(file => file.split('/').pop() !== 'index.js')
+      .filter(file => !file.match('v1'))
       .filter(file => file.split('.').pop() === 'js')
       .forEach(file => {
         try {
