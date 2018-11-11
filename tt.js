@@ -1,39 +1,27 @@
-const db   = require('./src/config/db')
-const User = require('./src/models/user-model')
+const db     = require('./src/config/db')
+const Task   = require('./src/models/task-model')
+const moment = require('moment')
 
-db.connect()
+db.connect();
 
-const testOne = async () => {
-  console.log('a')
-  const users = await User.find({name: 'zan'})
-  console.log(users.length)
-  if (users.length > 0) {
-    users.map(user => console.log('user = ' + user.email))
-  } else {
-    console.log('there is no user')
-  }
+// (() => {
+//   Task.find({title:'bad'})
+//     .then(tasks => console.log('tasks = ' + tasks.length))
+//     .catch(() => console.log('no'))
+// })();
 
-  User.find({name: 'a'}, (err, users) => {
-    if(err){
-      console.log('there is no user')
-    }
-    console.log('users = ' + users)
-    users.map(user => console.log('user = ' + user))
-  })
+// (async () => {
+//   const tasks = await Task.findOne({title: 'bad'})
+//   if (!tasks || tasks.length === 0) {
+//     console.log('no')
+//   } else {
+//     console.log('tasks = ' + tasks.length)
+//   }
+// })();
 
-  User.find({name:'a'})
-    .then(users => console.log('2users = ' + users))
-    .catch(err => err.log())
-}
-
-testOne()
-
-
-const testTwo = () => {
-  User.find({name: 'zany'})
-    .then(users => users.map(user => console.log(user.email)))
-    .catch(err => console.log('err:', err))
-}
-// testTwo()
-
+(async () => {
+  const id = '5be766b160d033fb43951fd1'
+   const result = await Task.findByIdAndDelete({_id: id})
+  console.log(result)
+})();
 

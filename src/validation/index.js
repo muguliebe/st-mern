@@ -8,7 +8,7 @@ const isEmpty = value =>
 
 // @param data
 // @param fields ex) ['field1', 'field2', 'field3']
-const required = (data, fields) => {
+const required = (data = {}, fields) => {
   const errors = {}
 
   fields.map(key => {
