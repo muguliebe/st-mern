@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import useTask from '../../hook/useTask'
+import classnames from 'classnames'
 
 const TaskItem = (props) => {
   const taskStore     = useTask()
@@ -24,7 +25,9 @@ const TaskItem = (props) => {
         <div className="card-body">
           <div className="d-flex justify-content-between">
             <h5 className="card-title">{task.title}</h5>
-            <span className="small">{moment(task.dueDate).format('YYYY-MM-DD')}</span>
+            <span className={classnames('small', {'text-warning': moment(task.dueDate).isBefore() && !task.completed})}>
+              {moment(task.dueDate).format('YYYY-MM-DD')}
+              </span>
           </div>
 
           <h6 className="card-subtitle mb-2 text-muted">
