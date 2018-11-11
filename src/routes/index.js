@@ -14,8 +14,9 @@ const routerBind = () => {
           console.log(`route bind: ${file}`)
           routes.use(require(file))
         } catch (err) {
-          console.log(`mount controller err occurred at ${file}\n\t ${err}`)
-          throw new Error(`${file}:${err}`)
+          console.log(`mount controller err occurred at ${file}: ${err.message}`)
+          console.log(err)
+          throw new Error(`${file}:`, err)
         }
       })
     return routes

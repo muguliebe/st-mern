@@ -1,27 +1,8 @@
-const db     = require('./src/config/db')
-const Task   = require('./src/models/task-model')
-const moment = require('moment')
+const user = {name: 'ss', email: '1@a.com', password:'123'}
 
-db.connect();
+const fn = ({name, ...rest}) => {
+  console.log('name = ' + name)
+  console.log('rest = ' ,{...rest})
+}
 
-// (() => {
-//   Task.find({title:'bad'})
-//     .then(tasks => console.log('tasks = ' + tasks.length))
-//     .catch(() => console.log('no'))
-// })();
-
-// (async () => {
-//   const tasks = await Task.findOne({title: 'bad'})
-//   if (!tasks || tasks.length === 0) {
-//     console.log('no')
-//   } else {
-//     console.log('tasks = ' + tasks.length)
-//   }
-// })();
-
-(async () => {
-  const id = '5be766b160d033fb43951fd1'
-   const result = await Task.findByIdAndDelete({_id: id})
-  console.log(result)
-})();
-
+fn(user)

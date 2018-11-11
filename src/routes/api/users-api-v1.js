@@ -13,7 +13,7 @@ const User = require('../../models/user-model')
 
 function init(router) {
 
-  const url = '/api/users'
+  const url = '/api/v1/users'
   const passportAuth = passport.authenticate('jwt', {session: false})
 
   router.get(url.concat('/test'), test)
