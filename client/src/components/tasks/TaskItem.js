@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import moment from 'moment'
 import useTask from '../../hook/useTask'
 
 const TaskItem = (props) => {
-  const taskStore = useTask()
+  const taskStore     = useTask()
   let [task, setTask] = useState({title: '', body: '', complete: false})
+
   useEffect(() => {
     setTask(props.task)
   }, [])
 
   const handleComplete = () => {
-    // taskStore.eTask(task._id)
+    taskStore.completeTask(task)
   }
-  const handleDelete = () => {
+  const handleDelete   = () => {
     taskStore.deleteTask(task._id)
   }
 
@@ -35,15 +37,16 @@ const TaskItem = (props) => {
             <input type="checkbox"
                    className="form-check-input"
                    value={task.completed}
-                   disabled={task.complete}
+                   disabled={task.completed}
                    onChange={handleComplete} />
 
-            <label>Completed</label>
+            <label style={task.completed ? {textDecorationLine: 'line-through'} : {}}>Completed</label>
           </div>
 
           <div className="d-flex justify-content-between">
-            <a href="#" type="button" className="card-link btn btn-primary">Edit
-            </a>
+            <Link to={`/tasks-edit/${task._id}`} task={task}>
+              <button className="card-link btn btn-primary">Edit</button>
+            </Link>
             <button className="card-link btn btn-danger" onClick={handleDelete}>Delete</button>
           </div>
         </div>

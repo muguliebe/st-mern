@@ -36,8 +36,9 @@ const usePosts = () => {
   const deletePost = (postId) => {
     axios.delete(`/api/posts/${postId}`)
       .then(() => {
-        const filteredPosts = posts.filter(post => post._id !== postId);
-        setPosts(filteredPosts);
+        const index = posts.findIndex(post => post._id === postId)
+        posts.splice(index, 1)
+        setPosts(posts);
       })
       .catch(e => {
         console.log('usePosts] deletePost:', e);

@@ -50,7 +50,7 @@ const putTask = async (req, res) => {
   }
 
   const task        = new Task(req.body)
-  const updatedTask = Task.findByIdAndUpdate({_id: req.params.id}, task)
+  const updatedTask = await Task.findByIdAndUpdate({_id: req.params.id}, task)
   if (!updatedTask) {
     return res.status(500).json({errors: 'there is no task'})
   }

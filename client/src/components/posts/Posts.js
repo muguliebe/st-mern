@@ -6,10 +6,10 @@ import PostFeed from './PostFeed';
 import usePosts from "../../hook/usePosts";
 
 const Posts = () => {
-  const {posts, addPost, setPosts, deletePost, loading, likePost, unlikePost} = usePosts();
+  const postStore = usePosts();
 
   return (
-    <PostContext.Provider value={{posts, addPost, setPosts, loading, deletePost, likePost, unlikePost}}>
+    <PostContext.Provider value={postStore}>
       <div className="feed">
         <div className="container">
           <div className="row">
@@ -17,7 +17,7 @@ const Posts = () => {
               <PostForm />
             </div>
           </div>
-          {loading ? <Spinner /> : <PostFeed key={posts.toString()} posts={posts} />}
+          {postStore.loading ? <Spinner /> : <PostFeed key={postStore.posts.toString()} posts={postStore.posts} />}
         </div>
       </div>
     </PostContext.Provider>
