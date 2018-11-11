@@ -1,5 +1,6 @@
 const router      = require('express').Router()
 const bodyParser  = require('body-parser')
+const cors        = require('cors')
 const {allAround} = require('../service/advice')
 const passport    = require('passport')
 
@@ -15,6 +16,7 @@ const getEnvironment = () => {
 
 const setCommon = () => {
 
+  router.use(cors())
   router.use(bodyParser.urlencoded({extended: false}))
   router.use(bodyParser.json())
   router.use(passport.initialize())
