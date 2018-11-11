@@ -1,26 +1,25 @@
 import React, { useEffect } from 'react'
-import useTask from '../../hook/useTask'
 import TaskForm from './TaskForm'
+import useTask from '../../hook/useTask'
 
-
-const TaskEdit = (props) => {
+const TaskCreate = (props) => {
   const taskStore = useTask()
 
   useEffect(() => {
-    taskStore.getTask(props.match.params.id)
+    taskStore.initTask()
   }, [])
 
   const handleSubmit = e => {
     e.preventDefault()
-    taskStore.putTask(taskStore.task)
+    taskStore.postTask(taskStore.task)
     props.history.push('/tasks')
   }
 
   return (
     <div>
-      <h1>Edit Task</h1>
+      <h1>Create Task</h1>
       <TaskForm task={taskStore.task}
-                buttonName={'save'}
+                buttonName={'create'}
                 handleSubmit={handleSubmit}
                 handleChangeTitle={taskStore.handleChangeTitle}
                 handleChangeBody={taskStore.handleChangeBody}
@@ -30,4 +29,4 @@ const TaskEdit = (props) => {
   )
 }
 
-export default TaskEdit
+export default TaskCreate

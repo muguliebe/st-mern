@@ -15,14 +15,17 @@ function init(router) {
 }
 
 const postTask = (req, res) => {
-  const error = required(req.body, ['title', 'body', 'author'])
+  const error = required(req.body, ['title', 'body'])
   if (!isEmpty(error)) {
     return res.status(400).json(error)
   }
 
   const task = new Task(req.body)
   task.save(err => {
-    if (err) res.status(500).json()
+    if (err) {
+      console.log(err)
+      return res.status(500).json()
+    }
     res.status(201).json(task)
   })
 }
@@ -44,6 +47,7 @@ const getTask = async (req, res) => {
 }
 
 const putTask = async (req, res) => {
+  console.log(req.body)
   const error = required(req.body, ['title', 'body'])
   if (!isEmpty(error)) {
     return res.status(400).json(error)

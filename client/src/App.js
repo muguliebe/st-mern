@@ -15,6 +15,7 @@ import PrivateRoute from './components/common/PrivateRoute';
 import Posts from './components/posts/Posts';
 import TaskAll from './components/tasks/TaskAll';
 import TaskEdit from './components/tasks/TaskEdit';
+import TaskCreate from './components/tasks/TaskCreate';
 
 const App = () => {
   const {user, dispatch, login, logout} = useUser();
@@ -32,6 +33,7 @@ const App = () => {
             <PrivateRoute exact path="/feed" component={Posts} />
             <Route exact path="/tasks" component={TaskAll} />
             <Route exact path="/tasks-edit/:id" component={TaskEdit} />
+            <Route exact path="/tasks/new" component={TaskCreate} />
           </div>
           <Footer />
         </AuthContext.Provider>
