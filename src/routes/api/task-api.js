@@ -58,14 +58,8 @@ const putTask = async (req, res) => {
 }
 
 const deleteTask = async (req, res) => {
-  const error = required(req.body, ['title', 'body'])
-  if (!isEmpty(error)) {
-    return res.status(400).json(error)
-  }
-
-  const task        = new Task(req.body)
-  const deletedTask = await Task.findByIdAndDelete({_id: task._id})
-  if (deletedTask) {
+  const deletedTask = await Task.findByIdAndDelete({_id: req.params.id})
+  if (!deletedTask) {
     return res.status(500).json()
   }
   res.status(204).json()

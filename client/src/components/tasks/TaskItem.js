@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
+import useTask from '../../hook/useTask'
 
 const TaskItem = (props) => {
-  const [task, setTask] = useState({title: '', body: ''})
+  const taskStore = useTask()
+  let [task, setTask] = useState({title: '', body: '', complete: false})
   useEffect(() => {
     setTask(props.task)
   }, [])
 
-  const handleComplete = (e) => {
-    console.log(task._id)
+  const handleComplete = () => {
+    // taskStore.eTask(task._id)
+  }
+  const handleDelete = () => {
+    taskStore.deleteTask(task._id)
   }
 
   return (
@@ -39,7 +44,7 @@ const TaskItem = (props) => {
           <div className="d-flex justify-content-between">
             <a href="#" type="button" className="card-link btn btn-primary">Edit
             </a>
-            <a className="card-link btn btn-danger" href="#">Delete</a>
+            <button className="card-link btn btn-danger" onClick={handleDelete}>Delete</button>
           </div>
         </div>
       </div>

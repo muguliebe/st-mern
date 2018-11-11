@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import TaskItem from './TaskItem'
+import useTask from '../../hook/useTask'
+
 
 const TaskAll = () => {
-  const [tasks, setTasks] = useState([])
+  const taskStore = useTask()
 
   useEffect(() => {
-    axios.get('/api/tasks')
-      .then(res => setTasks(res.data))
-      .catch(e => console.log('TaskAll]', e))
+    taskStore.getTasks()
   }, [])
 
   return (
@@ -21,7 +20,7 @@ const TaskAll = () => {
         </div>
 
         <div className="d-flex flex-wrap justify-content-start">
-          {tasks.map(task => <TaskItem key={task._id} task={task} />)}
+          {taskStore.tasks.map(task => <TaskItem key={task._id} task={task} />)}
         </div>
       </div>
     </div>
