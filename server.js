@@ -10,7 +10,7 @@ db.connect()                   // DB config
 app.use(routerBind())          // controller
 
 // client file serving
-if (process.env.node_env === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build')) // set static folder
   app.get('*', (req, res) => {
     res.sendfile(path.resolve(__dirname, 'client', 'build', 'index.html'))
@@ -19,4 +19,4 @@ if (process.env.node_env === 'production') {
 
 // server start
 const port = process.env.PORT || 3001
-app.listen(port, () => console.log(`server running on port ${port} on ${process.env.node_env}`))
+app.listen(port, () => console.log(`server running on port ${port} on ${process.env.NODE_ENV}`))
