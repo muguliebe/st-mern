@@ -11,7 +11,7 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://localhost.com:3004",
+  "proxy": "http://localhost.com:3001",
   "scripts": {
     "start": "react-scripts start",
     "prebuild": "node ./script/change-package.js",
