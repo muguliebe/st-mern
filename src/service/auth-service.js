@@ -6,6 +6,7 @@ const generateJWT  = (user) => {
     id: user._id,
     email: user.email,
     name: user.name,
+    avatar: user.avatar,
     role: user.role || 'normal'
   }
   return jwt.sign(tokenData, keys.secretOrKey, {expiresIn: 3600})

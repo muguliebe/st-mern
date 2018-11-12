@@ -31,7 +31,6 @@ function useUser() {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
       const decoded = jwtDecode(localStorage.token);
-      console.dir(decoded)
       dispatch({...user, ...decoded, isAuth: true});
       const currentTime = Date.now() / 1000;
       if (decoded.exp < currentTime) {
