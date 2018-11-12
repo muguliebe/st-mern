@@ -5,6 +5,10 @@
   "main": "server.js",
   "author": "zany",
   "license": "MIT",
+  "engines": {
+    "npm": "6.4.1",
+    "yarn": "1.10.1"
+  },
   "scripts": {
     "client-install": "npm install --prefix client",
     "tt": "node src/tt.js",
