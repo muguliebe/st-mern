@@ -1,18 +1,18 @@
-const express = require('express')
-const router = express.Router()
-const passport = require('passport')
-const Profile = require('../../models/profile-model')
+const express     = require('express')
+const router      = express.Router()
+const Profile     = require('../../models/profile-model')
+const serviceAuth = require('../../service/auth-service')
 
 // load validation
 const validateProfileInput = require('../../validation/profile')
 
 function init(router) {
-  const url = '/api/profile'
-  const passportAuth = passport.authenticate('jwt', {session: false})
+  const url  = '/api/profile'
+  const auth = serviceAuth.requireLogin
 
 
   router.get(url.concat('/test'), test)
-  router.get(url, passportAuth, getProfile)
+  router.get(url, auth, getProfile)
   router.post(url, postProfile)
   router.get(url.concat('/all'), getProfiles)
 
@@ -37,7 +37,7 @@ const postProfile = async (req, res) => {
 
     // Get fields
     const profileFields = {}
-    profileFields.user = req.user.id;
+    profileFields.user  = req.user.id;
     ['handle', 'company', 'website', 'location', 'bio', 'status', 'githubusername']
       .filter(key => req.body[key])
       .forEach(key => profileFields[key] = req.body[key])

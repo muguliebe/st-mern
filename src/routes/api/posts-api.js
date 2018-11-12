@@ -1,6 +1,6 @@
-const express  = require('express')
-const router   = express.Router()
-const passport = require('passport')
+const express     = require('express')
+const router      = express.Router()
+const serviceAuth = require('../../service/auth-service')
 
 // model
 const User = require('../../models/user-model')
@@ -11,18 +11,18 @@ const validatePostInput = require('../../validation/post')
 
 function init(router) {
 
-  const url          = '/api/posts'
-  const passportAuth = passport.authenticate('jwt', {session: false})
+  const url  = '/api/posts'
+  const auth = serviceAuth.requireLogin
 
   router.get(url + '/test', test)
   router.get(url, getPosts)
-  router.post(url, passportAuth, savePost)
-  router.get(url.concat('/:id'), passportAuth, getPost)
-  router.delete(url.concat('/:id'), passportAuth, deletePost)
-  router.post(url.concat('/:id/like'), passportAuth, like)
-  router.post(url.concat('/:id/unlike'), passportAuth, unlike)
-  router.post(url.concat('/:id/comment'), passportAuth, addComment)
-  router.delete(url.concat('/:id/comment'), passportAuth, deleteComment)
+  router.post(url, auth, savePost)
+  router.get(url.concat('/:id'), auth, getPost)
+  router.delete(url.concat('/:id'), auth, deletePost)
+  router.post(url.concat('/:id/like'), auth, like)
+  router.post(url.concat('/:id/unlike'), auth, unlike)
+  router.post(url.concat('/:id/comment'), auth, addComment)
+  router.delete(url.concat('/:id/comment'), auth, deleteComment)
   return router
 }
 
