@@ -8,7 +8,6 @@
   "scripts": {
     "client-install": "npm install --prefix client",
     "tt": "node src/tt.js",
-    "prestart": "node client/script/change-package.js",
     "start": "node server.js",
     "watch": "nodemon -w src -w server.js --exec yarn start",
     "client": "npm start --prefix client",
