@@ -9,7 +9,7 @@ fs.readFile(file, 'utf8', (err, data) => {
   let parsedData = JSON.parse(data)
 
   // get the proxy from the environment variable
-  let proxy = process.env.REACT_APP_PROXY || 'http://localhost.com'
+  let proxy = process.env.REACT_APP_PROXY || 'http://localhost'
   proxy += ':'
   proxy += process.env.PORT || '3001'
   console.log(`process.env.PORT=${process.env.PORT}`)
