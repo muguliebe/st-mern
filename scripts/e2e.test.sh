@@ -44,7 +44,4 @@ echo -ne ' 98% [####################################### ] Tests Complete        
 echo '100% [########################################] Complete                                    '
 
 # Terminate all processes within the same process group by sending a SIGTERM signal
-set +e
 kill -15 0 &> /dev/null || true
-set -e
-exit 0

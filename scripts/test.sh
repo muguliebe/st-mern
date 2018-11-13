@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-yarn test:unit&
-export APP_PID=$!
-echo $APP_PID
-pkill -15 $APP_PID
+export pgid = spawn 'sleep 20 | sleep 20'
+sleep 1
+Process.kill 'TERM', -$pgid
