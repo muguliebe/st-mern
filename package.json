@@ -10,10 +10,9 @@
     "yarn": "1.10.1"
   },
   "scripts": {
-    "tt": "node src/tt.js",
     "client-install": "npm install --prefix client",
     "delay": "node ./node_modules/npm-delay 2000",
-    "test": "dotenv cucumber-js -- spec/features",
+    "tt": "dotenv cucumber-js -- spec/features",
     "serve": "node server.js",
     "pm2": "start server.js",
     "watch": "nodemon -w src -w server.js --exec yarn serve",
