@@ -16,6 +16,7 @@
     "test:unit": "mocha src/**/*.test.js",
     "test:ee": "./scripts/e2e.test.sh",
     "test": "npm run test:unit && npm run test:ee",
+    "precommit": "npm run test",
     "serve": "node server.js",
     "pm2": "start server.js",
     "watch": "nodemon -w src -w server.js --exec npm run serve",
