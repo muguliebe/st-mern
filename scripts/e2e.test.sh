@@ -1,4 +1,5 @@
 #!/bin/bash
+set +e
 
 # Set environment variables from .env and set NODE_ENV to test
 source <(dotenv-export | sed 's/\\n/\n/g')
@@ -10,6 +11,7 @@ echo -ne '  5% [##                                      ] starting              
 echo -ne ' 60% [########################                ] Initiating API                            \r'
 #yarn run serve &
 yarn run serve > /dev/null &
+
 
 # Polling to see if the server is up and running yet
 SERVER_UP=false
@@ -43,12 +45,5 @@ echo -ne ' 98% [####################################### ] Tests Complete        
 echo '100% [########################################] Complete                                    '
 
 # Terminate all processes within the same process group by sending a SIGTERM signal
-
-travis_terminate() {
-  set +e
-#  pkill -9 -P $$ &> /dev/null || true
-  kill -15 0
-  exit $1
-}
-
-travis_terminate 0
+kill -15 0
+set -e
