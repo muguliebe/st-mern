@@ -43,4 +43,12 @@ echo -ne ' 98% [####################################### ] Tests Complete        
 echo '100% [########################################] Complete                                    '
 
 # Terminate all processes within the same process group by sending a SIGTERM signal
-kill -15 0
+
+travis_terminate() {
+  set +e
+#  pkill -9 -P $$ &> /dev/null || true
+  kill -15 0
+  exit $1
+}
+
+travis_terminate 0
