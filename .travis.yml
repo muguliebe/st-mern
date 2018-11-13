@@ -3,6 +3,7 @@ node_js:
 - "lts/*"
 #script:
 #- yarn test:unit
+cache: yarn
 env:
   global:
   - NODE_ENV=test
