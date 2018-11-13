@@ -5,9 +5,10 @@ const {convertStringToArray, getValidPayload} = require('./util')
 const objectPath                              = require('object-path')
 
 When(/^the client creates a (GET|POST|PATCH|PUT|DELETE|OPTIONS|HEAD) request to ([\/\w-]+)$/, function (method, path) {
-  const host   = process.env.SERVER_HOSTNAME
-  const port   = process.env.SERVER_PORT
-  this.request = superagent(method, `${host}:${port}${path}`)
+  const protocol = process.env.SERVER_PROTOCOL
+  const host     = process.env.SERVER_HOST
+  const port     = process.env.SERVER_PORT
+  this.request   = superagent(method, `${protocol}://${host}:${port}${path}`)
 })
 
 When(/^attaches a (.+) payload which is missing the (.*) fields?$/, function (payloadType, missingFields) {

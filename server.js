@@ -1,13 +1,12 @@
 const express          = require('express')
 const routerBind       = require('./src/routes/')
-const env              = require('./src/config/env')
 const db               = require('./src/config/db')
 const commonMiddleware = require('./src/middleware/common-middleware')
 
 const app = express()
 app.use(commonMiddleware())
 db.connect()                 // DB config
-app.use(routerBind())          // controller
+app.use(routerBind())        // controller
 
 // client file serving
 if (process.env.NODE_ENV === 'production') {
