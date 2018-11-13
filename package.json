@@ -10,17 +10,22 @@
     "yarn": "1.10.1"
   },
   "scripts": {
-    "client-install": "npm install --prefix client",
     "tt": "node src/tt.js",
+    "client-install": "npm install --prefix client",
+    "delay": "node ./node_modules/npm-delay 2000",
+    "test": "dotenv cucumber-js -- spec/features",
+    "serve": "node server.js",
+    "watch": "nodemon -w src -w server.js --exec yarn serve",
     "start": "node server.js",
-    "watch": "nodemon -w src -w server.js --exec yarn start",
     "client": "npm start --prefix client",
     "dev": "concurrently --kill-others-on-fail \"npm run watch\" \"npm run client\"",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
+    "ajv": "^6.5.5",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "chalk": "^2.4.1",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "gravatar": "^1.6.0",
@@ -30,10 +35,15 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "recursive-readdir-sync": "^1.0.6",
+    "superagent": "^4.0.0-beta.5",
     "validator": "^10.8.0"
   },
   "devDependencies": {
+    "cucumber": "^5.0.2",
+    "dotenv-cli": "^1.4.0",
     "morgan": "^1.9.1",
-    "nodemon": "^1.18.5"
+    "nodemon": "^1.18.5",
+    "npm-delay": "^1.0.4",
+    "object-path": "^0.11.4"
   }
 }

@@ -1,13 +1,13 @@
 const express     = require('express')
 const router      = express.Router()
-const serviceAuth = require('../../service/auth-service')
+const serviceAuth = require('../service/auth-service')
 
 // model
-const User = require('../../models/user-model')
-const Post = require('../../models/post-model')
+const User = require('../models/user-model')
+const Post = require('../models/post-model')
 
 // lord validator
-const validatePostInput = require('../../validation/post')
+const validatePostInput = require('../validation/post')
 
 function init(router) {
 

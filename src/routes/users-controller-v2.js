@@ -1,11 +1,11 @@
 const express     = require('express')
 const router      = express.Router()
 const gravatar    = require('gravatar')
-const valid       = require('../../utils/validation')
-const serviceAuth = require('../../service/auth-service')
+const valid       = require('../utils/validation')
+const serviceAuth = require('../service/auth-service')
 
 // load user model
-const User = require('../../models/user-model')
+const User = require('../models/user-model')
 
 function init(router) {
 

@@ -1,6 +1,6 @@
-const {required, isEmpty} = require('../../validation')
+const {required, isEmpty} = require('../validation/index')
 const router              = require('express').Router()
-const Task                = require('../../models/task-model')
+const Task                = require('../models/task-model')
 
 function init(router) {
   const url = '/api/tasks'

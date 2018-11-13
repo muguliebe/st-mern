@@ -1,10 +1,10 @@
 const express     = require('express')
 const router      = express.Router()
-const Profile     = require('../../models/profile-model')
-const serviceAuth = require('../../service/auth-service')
+const Profile     = require('../models/profile-model')
+const serviceAuth = require('../service/auth-service')
 
 // load validation
-const validateProfileInput = require('../../validation/profile')
+const validateProfileInput = require('../validation/profile')
 
 function init(router) {
   const url  = '/api/profile'

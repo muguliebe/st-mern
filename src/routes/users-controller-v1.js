@@ -3,13 +3,13 @@ const router = express.Router()
 const gravatar = require('gravatar')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const keys = require('../../config/keys')
+const keys = require('../config/keys')
 const passport = require('passport')
-const validateRegisterInput = require('../../validation/register')
-const validateLoginInput = require('../../validation/login')
+const validateRegisterInput = require('../validation/register')
+const validateLoginInput = require('../validation/login')
 
 // load user model
-const User = require('../../models/user-model')
+const User = require('../models/user-model')
 
 function init(router) {
 
