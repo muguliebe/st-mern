@@ -1,5 +1,4 @@
 #!/bin/bash
-set +e
 
 # Set environment variables from .env and set NODE_ENV to test
 source <(dotenv-export | sed 's/\\n/\n/g')
@@ -45,5 +44,5 @@ echo -ne ' 98% [####################################### ] Tests Complete        
 echo '100% [########################################] Complete                                    '
 
 # Terminate all processes within the same process group by sending a SIGTERM signal
+set +e
 kill -15 0
-set -e
