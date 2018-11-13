@@ -5,7 +5,7 @@ const axios      = require('axios')
 const port = process.env.PORT || 3001
 describe('server', () => {
   before(function (done) {
-    require('./server')
+    require('../server')
     setTimeout(function () {
       done()
     }, 1000)

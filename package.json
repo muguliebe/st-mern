@@ -14,7 +14,8 @@
     "delay": "node ./node_modules/npm-delay 2000",
     "test:tt": "dotenv cucumber-js -- spec/features",
     "test:unit": "mocha src/**/*.test.js",
-    "test": "npm run test:unit",
+    "test:ee": "./scripts/e2e.test.sh",
+    "test": "npm run test:unit && npm run test:ee",
     "serve": "node server.js",
     "pm2": "start server.js",
     "watch": "nodemon -w src -w server.js --exec npm run serve",
@@ -43,6 +44,7 @@
   "devDependencies": {
     "cucumber": "^5.0.2",
     "dotenv-cli": "^1.4.0",
+    "dotenv-export": "^2.0.0",
     "mocha": "^5.2.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.5",
