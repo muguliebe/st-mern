@@ -1,8 +1,8 @@
 language: node_js
 node_js:
 - "lts/*"
-script:
-- yarn test:unit
+#script:
+#- yarn test:unit
 env:
   global:
   - NODE_ENV=test
