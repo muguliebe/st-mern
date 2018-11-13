@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- "lts/*"
+env:
+  global:
+  - NODE_ENV=test
+  - SERVER_PROTOCOL=http
+  - SERVER_HOST=localhost
+  - SERVER_PORT=3001
+
